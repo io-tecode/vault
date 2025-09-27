@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    {% comment %} <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;1,300&display=swap" rel="stylesheet"> {% endcomment %}
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+    {% block content %}
+    {% comment %} {% load django_browser_reload %} {% endcomment %}
+    {% load i18n %}
+
+    {% endblock %}
+    {% comment %} {% django_browser_reload_script %} {% endcomment %}
+</body>
+</html>

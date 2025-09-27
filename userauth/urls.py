@@ -1,0 +1,9 @@
+from django.urls import path
+from .views import *
+
+app_name = 'userauth'
+
+urlpatterns = [
+    path('login/', signin, name='login'),
+    path('signup/', signup, name='signup'),
+]
