@@ -1,8 +1,6 @@
 import re
 from django.core.exceptions import ValidationError
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.contrib.auth.backends import BaseBackend
-from .models import CustomUser
 
 
 def set_username_from_fields(sender, instance, **kwargs):
@@ -34,18 +32,3 @@ class AccountActivationTokenGenerator(PasswordResetTokenGenerator):
                 str(user.is_active))
 activate_token = AccountActivationTokenGenerator()
 
-
-class EmailBackend(BaseBackend):
-    def authenticate(self, request, username=None, password=None, **kwargs):
-        try:
-            user = CustomUser.objects.get(email=username)
-            if user.check_password(password):
-                return user
-        except CustomUser.DoesNotExist:
-            return None
-
-    def get_user(self, user_id):
-        try:
-            return CustomUser.objects.get(pk=user_id)
-        except CustomUser.DoesNotExist:
-            return None

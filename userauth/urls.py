@@ -6,4 +6,5 @@ app_name = 'userauth'
 urlpatterns = [
     path('login/', signin, name='login'),
     path('signup/', signup, name='signup'),
+    path('verify-email/', email_verification, name='email_verification')
 ]

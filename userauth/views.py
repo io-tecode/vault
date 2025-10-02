@@ -17,44 +17,48 @@ from django.utils.html import strip_tags
 from .models import CustomUser, VertifyUser
 from .forms import UserSignUp, LoginForm, UserSignUp, passwordChangeForm 
 from django.utils import timezone
+from django.contrib import messages
 
-# Create your views here.
+
 @csrf_protect
 def signup(request):
-    form = UserSignUp
     if request.method == 'POST':
         form = UserSignUp(request.POST)
         if form.is_valid():
+            # Get cleaned data
             email = form.cleaned_data.get('email')
             nickname = form.cleaned_data.get('nickname')
             password = form.cleaned_data.get('password')
             last_name = form.cleaned_data.get('last_name')
             first_name = form.cleaned_data.get('first_name')
-            user = CustomUser.objects.create_user(email=email if email else None, nickname=nickname if nickname else None, password=password, last_name=last_name, first_name=first_name)
-            user.is_active = False
+            user = CustomUser(email=email, nickname=nickname, last_name=last_name, first_name=first_name)
+            user.set_password(password)
+            user.is_active = False  # User is inactive until email verification
             user.save()
             verify_user = VertifyUser.objects.create(user=user)
             gen = verify_user.generate_code()
             verify_user.code = gen
             verify_user.save()
             current_site = get_current_site(request)
-            message=render_to_string('../templates/userauth/account_activation.html',
-                                     {
-                                         'user': user,
-                                         'domain': current_site.domain,
-                                         'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                                         'gen_code': gen,
-                                     })
-            
+            message = render_to_string('../templates/userauth/account_activation.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'gen_code': gen,
+            })
             message = strip_tags(message)
             mail_subject = 'Activate your account.'
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [user.email]
-            send_mail( mail_subject, message, email_from, recipient_list )
             try:
-                return render(request, '../templates/userauth/email_verification.html')
+                send_mail(mail_subject, message, email_from, recipient_list)
+                messages.success(request, 'Please check your email to verify your account.')
+                return render(request, 'userauth/checkemailmsg.html')
             except Exception as e:
-                return render(request, str(e))
+                messages.error(request, f'An error occurred while sending the email: {str(e)}')
+                return render(request, 'userauth/signup.html', {'form': form})
+        else:
+            return render(request, '../templates/userauth/signup.html', {'form': form})
     else:
         form = UserSignUp()
     return render(request, '../templates/userauth/signup.html', {'form': form})
@@ -72,7 +76,7 @@ def signup(request):
 #         user.is_verified = True
 #         user.is_active = True
 #         user.save()
-#         login(request, user, backend='authentication_app.backends.EmailBackend')
+#         login(request, user, backend='userauth.backends.EmailBackend')
 #         return redirect('/')
         
 #     else:
@@ -88,13 +92,11 @@ def signin(request):
         form = LoginForm(data=request.POST)
         if form.is_valid():
             email = form.cleaned_data.get('username')
-            
             password = form.cleaned_data.get('password')
             user = authenticate(request, email=email, password=password)
             print(email, password)
             if user is not None:
                 login(request, user)
-                # return redirect('filesystem:upload_list')
                 return render(request, '../templates/plate/dashboard.html')
             else:
                 return render(request, '../templates/userauth/login.html', {'form': form, 'next': next_url, 'error': 'Invalid email or password'})
@@ -194,24 +196,35 @@ def reset_password_confirm(request, uidb64, token):
     
 
 
-
-
 @csrf_protect
 def email_verification(request):
+    print("email_verification view called")
     if request.method == 'POST':
         code = request.POST.get('code')
+        print(f"Code received: {code}")
+        if not code:
+            messages.error(request, 'Please enter the verification code.')
+            return render(request, 'userauth/email_verification.html')
         try:
             verifyuser = VertifyUser.objects.get(code=code)
-            if timezone.now() > verifyuser.is_expired:
-                return render(request, '../templates/userauth/email_verification.html', {'error': 'Code expired'})
-            user = verifyuser.user
-            user.is_verified = True
-            user.is_active = True
-            user.save()
-            login(request, user)
-            # return render(request, '/')
-            return render(request, '../templates/plate/dashboard.html')
+            print(f"verifyuser found: {verifyuser}")
         except VertifyUser.DoesNotExist:
-            return render(request, '../templates/userauth/email_verification.html', {'error': 'Invalid code'})
-    return render(request, '../templates/userauth/email_verification.html')
-
+            messages.error(request, 'Invalid verification code.')
+            return render(request, '../userauth/email_verification.html')
+        if timezone.now() > verifyuser.is_expired:
+            messages.error(request, 'Verification code has expired.')
+            return render(request, 'userauth/email_verification.html')
+        user = verifyuser.user
+        print(f"User found: {user}")
+        if not user.is_active:
+            user.is_active = True
+            user.is_verified = True
+            user.save()
+            login(request, user, backend='userauth.backends.EmailBackend')
+            messages.success(request, 'Your account has been successfully verified!')
+            return render(request, 'plate/dashboard.html')
+        else:
+            messages.info(request, 'Your account is already verified.')
+            return render(request, 'plate/dashboard.html')
+    print("Rendering email_verification.html")
+    return render(request, 'userauth/email_verification.html')

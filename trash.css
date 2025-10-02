@@ -1,0 +1,6 @@
+        body {
+          background-size: 40px 40px; /* Adjust spacing as needed */
+          background-image: linear-gradient(to right, grey 1px, transparent 1px),
+                            linear-gradient(to bottom, grey 1px, transparent 1px);
+          background-repeat: repeat; /* Ensures the pattern tiles */
+        }

@@ -10,14 +10,6 @@ class UserSignUp(forms.ModelForm):
         model = CustomUser
         fields = ['last_name', 'first_name', 'nickname', 'email', 'password']
 
-    def clean(self):
-        clean_data = super().clean()
-        email = clean_data.get('email')
-        nickname = clean_data.get('nickname')
-        if not email and not nickname:
-            raise forms.ValidationError("Either email or nickname must be provided.")
-        return clean_data
-    
     def clean_password2(self):
         password = self.cleaned_data.get('password')
         validator = ValidatePassword()

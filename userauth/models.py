@@ -27,6 +27,7 @@ class CustomUser(AbstractBaseUser):
     email = models.EmailField(unique=True)
     nickname = models.CharField(max_length=40, null=True)
     is_active = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
 
