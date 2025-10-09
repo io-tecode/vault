@@ -4,3 +4,6 @@
                             linear-gradient(to bottom, grey 1px, transparent 1px);
           background-repeat: repeat; /* Ensures the pattern tiles */
         }
+        
+        
+        class="relative min-h-screen w-full p-8 lg:p-12 text-black flex items-center bg-[var(--background-light-brand)]"

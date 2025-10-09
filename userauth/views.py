@@ -19,6 +19,8 @@ from .forms import UserSignUp, LoginForm, UserSignUp, passwordChangeForm
 from django.utils import timezone
 from django.contrib import messages
 
+def home(request):
+    return render(request, '../templates/plate/home.html')  
 
 @csrf_protect
 def signup(request):
