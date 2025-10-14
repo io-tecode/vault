@@ -5,6 +5,6 @@
 {% endblock %}
 
 {% block content %}
-    <a href="../plates/signup.html">Sign Up</a> | 
-    <a href="../plates/signin.html">Sign In</a>
+    <a href="{% url 'userauth:signup' %}">Sign Up</a> | 
+    <a href="{% url 'userauth:login' %}">Sign In</a>
 {% endblock %}

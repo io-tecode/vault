@@ -1,3 +1,5 @@
+from datetime import date
+# from django.utils import timezone
 from django.db import models
 from django.conf import settings
 import uuid
@@ -6,10 +8,10 @@ class Headline(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=250)
     subtitle = models.CharField(max_length=300)
-    logo = models.ImageField(upload_to='logo', name='headline-logo')
-    header_img = models.ImageField(upload_to='header_image', name='headline-image')
-    creation_date = models.DateField(auto_created=True)
-    updated_date = models.DateField(auto_now_add=True)
+    logo = models.ImageField(upload_to='logo', name='headline-logo', blank=True, null=True)
+    header_img = models.ImageField(upload_to='header_image', name='headline-image', blank=True, null=True)
+    creation_date = models.DateField(auto_now_add=True)
+    updated_date = models.DateField(auto_now=True)
 
 
 class Poll_information(models.Model):

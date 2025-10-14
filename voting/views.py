@@ -1,100 +1,81 @@
-from django.shortcuts import render
+from urllib import request
+from django.shortcuts import get_object_or_404, render, redirect
 from .models import *
 from django.views.generic import *
+from .forms import *
 
 
-# Views for Headline model
-class HeadlineListView(ListView, DetailView):
-    model = Headline
-    template_name = 'voting/headline_list.html'
-    context_object_name = 'headlines'
-    paginate_by = 10
-
-class HeadlineCreateView(CreateView, UpdateView):
-    model = Headline
-    template_name = 'voting/headline_form.html'
-    fields = ['title', 'subtitle', 'logo', 'header_img']
-    success_url = '/headlines/'
-    context_object_name = 'headline'
-    pk_url_kwarg = 'headline_id'
-
-class HeadlineDeleteView(DeleteView):
-    model = Headline
-    template_name = 'voting/headline_confirm_delete.html'
-    success_url = '/headlines/'
-    context_object_name = 'headline'
-    pk_url_kwarg = 'headline_id'
+def logboard_view(request):
+    headlines = Headline.objects.all().order_by('-creation_date')
+    context = {'headlines': headlines}
+    return render(request, '../templates/plate/logboard.html', context)
 
 
-# Views for Poll information model
-class PollListView(ListView, DetailView):
+def dashboard_view(request):
+    return render(request, '../templates/plate/dashboard.html')
+
+
+def headline_view(request):
+    if request.method == 'POST':
+        form = HeadlineForm(request.POST, request.FILES)
+        if form.is_valid():
+            headline = form.save(commit=False)
+            # headline.creation_date = timezone.now().date()
+            headline.save()
+            return redirect('voting:x6sad_dashboard')
+            # return render(request, '../templates/plate/dashboard.html')  # Refix: structuring the page a proper layout.
+    else:
+        form = HeadlineForm()
+    return render(request, '../templates/voting/headline_form.html', {'form': form})
+
+
+def poll_info_view(request):
+    if request.method == 'POST':
+        form = PollInformationForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('voting:x6sad_dashboard')
+            # return render(request, '../templates/plate/dashboard.html')  # Refix: structuring the page a proper layout.
+    else:
+        form = PollInformationForm()
+    return render(request, '../templates/voting/pollinfo_form.html', {'form': form})
+
+
+# def delete_upload_file(request, pk):
+#     user = CustomUser.objects.get(pk=request.user.id)
+#     if user.is_superuser:
+#         file = FileModels.objects.get(pk=pk)
+#         file.delete()
+#         file_path = os.path.join(settings.MEDIA_ROOT, str(file.file))
+#         if os.path.exists(file_path):
+#             os.remove(file_path)
+#         return redirect('filesystem:upload_list')
+#     else:
+#         return HttpResponseForbidden('<h1>You are not authorised to view this page</h1>')
+
+
+class poll_detail_view(DetailView):
     model = Poll
-    template_name = 'voting/poll_list.html'
-    context_object_name = 'polls'
-    paginate_by = 10
-    pk_url_kwarg = 'poll_id'
-
-class PollCreateView(CreateView, UpdateView):
-    model = Poll
-    template_name = 'voting/poll_form.html'
-    fields = ['headline', 'poll_info']
-    success_url = '/polls/'
-    context_object_name = 'poll'
-    pk_url_kwarg = 'poll_id'
-
-class PollDeleteView(DeleteView):
-    model = Poll
-    template_name = 'voting/poll_confirm_delete.html'
-    success_url = '/polls/'
-    context_object_name = 'poll'
-    pk_url_kwarg = 'poll_id'
+    template_name = 'voting/poll_detail.html'
+    context_object_name = 'poll_detail'
 
 
-# Views for Option model
-class OptionListView(ListView, DetailView):
-    model = Option
-    template_name = 'voting/option_list.html'
-    context_object_name = 'options'
-    paginate_by = 10
-    pk_url_kwarg = 'option_id'
-
-class OptionCreateView(CreateView, UpdateView):
-    model = Option
-    template_name = 'voting/option_form.html'
-    fields = ['poll', 'option_text']
-    success_url = '/options/'
-    context_object_name = 'option'
-    pk_url_kwarg = 'option_id'
-
-class OptionDeleteView(DeleteView):
-    model = Option
-    template_name = 'voting/option_confirm_delete.html'
-    success_url = '/options/'
-    context_object_name = 'option'
-    pk_url_kwarg = 'option_id'
+def poll_edit_view(request, pk):
+    poll = get_object_or_404(Poll, pk=pk)
+    if request.method == 'POST':
+        form = PollForm(request.POST, instance=poll)
+        if form.is_valid():
+            form.save()
+            return redirect('poll_detail', pk=poll.pk)  # Redirect to poll detail view
+    else:
+        form = PollForm(instance=poll)
+    return render(request, 'voting/poll_edit.html', {'form': form, 'poll': poll})
 
 
-# Views for Vote model
-class VoteListView(ListView, DetailView):
-    model = Vote
-    template_name = 'voting/vote_list.html'
-    context_object_name = 'votes'
-    paginate_by = 10
-    pk_url_kwarg = 'vote_id'
-
-class VoteCreateView(CreateView, UpdateView):
-    model = Vote
-    template_name = 'voting/vote_form.html'
-    fields = ['user', 'option', 'poll']
-    success_url = '/votes/'
-    context_object_name = 'vote'
-    pk_url_kwarg = 'vote_id'
-
-class VoteDeleteView(DeleteView):
-    model = Vote
-    template_name = 'voting/vote_confirm_delete.html'
-    success_url = '/votes/'
-    context_object_name = 'vote'
-    pk_url_kwarg = 'vote_id'
-
-
+def poll_delete_view(request, pk):
+    poll = get_object_or_404(Poll, pk=pk)
+    
+    if request.method == 'POST':
+        poll.delete()
+        return redirect('voting:x6sad_dashboard')  # Redirect to dashboard or another appropriate page
+    return render(request, 'voting/poll_confirm_delete.html', {'poll': poll})
