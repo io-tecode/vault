@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Edit Poll</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Edit</button>
+</form>
+{% comment %} <form method="post" enctype="application/x-www-form-urlencoded">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {% comment %} <button type="submit">Submit</button> {% endcomment %}
+</form> {% endcomment %}
+{% endblock %}

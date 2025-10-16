@@ -7,4 +7,6 @@ urlpatterns = [
     path('headlines/create/', headline_view, name='headline_create'),
     path('pollinfo/create/', poll_info_view, name='pollinfo_create'),
     path('dashboard/', dashboard_view, name='x6sad_dashboard'),
+    path('polls/<int:pk>/edit/', poll_edit_view, name='poll_edit'),
+    path('polls/<int:pk>/delete/', poll_delete_view, name='poll_delete'),
 ]    
