@@ -36,7 +36,7 @@ def headline_view(request):
 @login_required
 def headline_detail(request, pk):
     headline = get_object_or_404(Headline, pk=pk)
-    votee_details = Poll_information.objects.filter(id=headline.id).order_by('sub_category')
+    votee_details = Poll_information.objects.filter(headline_id=headline.id).order_by('headline_id')
     return render(request, '../templates/voting/headline_detail.html', {'headline': headline, 'votee_details': votee_details})
 
 
@@ -57,8 +57,8 @@ def poll_info_view(request):
 
 
 @login_required
-def votee_detail(request, pk):
-    poll_info = get_object_or_404(Poll_information, headline_id=pk)
+def votee_detail(request, id):
+    poll_info = get_object_or_404(Poll_information, id=id)
     return render(request, '../templates/voting/votee_detail.html', {'poll_info': poll_info})
 
 

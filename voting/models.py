@@ -1,8 +1,11 @@
-from datetime import date
-# from django.utils import timezone
 from django.db import models
 from django.conf import settings
 import uuid
+from PIL import Image
+from django.core.files.uploadedfile import InMemoryUploadedFile
+import sys
+from io import BytesIO
+from http.client import HTTPResponse
 
 
 class Headline(models.Model):
@@ -17,6 +20,41 @@ class Headline(models.Model):
 
     def get_creator(self):
         return self.creator.nickname
+    
+    def process_image(self, image_field, desired_size, format='PNG', quality=90):
+        if not image_field:
+            return  HTTPResponse(status=204)
+
+        img = Image.open(image_field)
+        img.thumbnail(desired_size)
+        width, height = img.size
+        left = (width - desired_size[0]) / 2
+        top = (height - desired_size[1]) / 2
+        right = (width + desired_size[0]) / 2
+        bottom = (height + desired_size[1]) / 2
+        img = img.crop((left, top, right, bottom))
+
+        img_output = BytesIO()
+        img = img.convert("RGB")
+        img.save(img_output, format=format, quality=quality)
+        img_output.seek(0)
+        extension = f"{image_field.name.split('.')[0]}_cropped.{format.lower()}"
+
+        processed_image = InMemoryUploadedFile(
+            img_output, 'ImageField', extension, f'image/{format.lower()}',
+            sys.getsizeof(img_output), None
+        )
+        return processed_image
+
+    def save(self, *args, **kwargs):
+        if hasattr(self, 'header_img') and self.header_img:
+            self.header_img = self.process_image(self.header_img, (600, 400))
+
+        if hasattr(self, 'logo') and self.logo:
+            self.logo = self.process_image(self.logo, (200, 100))
+
+        super().save(*args, **kwargs)
+
 
 
 class Poll_information(models.Model):

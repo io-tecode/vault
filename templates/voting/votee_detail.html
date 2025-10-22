@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="{% url 'voting:headline_detail' poll_info.headline.id %}">
+    previous page
+</a>
+    <h1>{{ poll_info.Name }}</h1>
+    <h3>Sub-category: {{ poll_info.sub_category }}</h3>
+    <p>Associated Headline: {{ poll_info.headline.title }}</p>
+{% endblock %}
