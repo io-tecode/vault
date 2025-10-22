@@ -11,14 +11,21 @@ class Headline(models.Model):
     subtitle = models.CharField(max_length=300)
     logo = models.ImageField(upload_to='logo', name='headline-logo', blank=True, null=True)
     header_img = models.ImageField(upload_to='header_image', name='headline-image', blank=True, null=True)
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     creation_date = models.DateField(auto_now_add=True)
     updated_date = models.DateField(auto_now=True)
+
+    def get_creator(self):
+        return self.creator.nickname
 
 
 class Poll_information(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     Name = models.CharField(max_length=250)
     sub_category = models.CharField(max_length=250)
+    headline = models.ForeignKey(Headline, on_delete=models.CASCADE, default=1)
+    creation_date = models.DateField(auto_now_add=True)
+    updated_date = models.DateField(auto_now=True)
 
 
 class Poll(models.Model):

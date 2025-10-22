@@ -2,8 +2,23 @@
 {% load static %}
 
 {% block content %}
-    <p>Please, we have arrived in the working dashboard.</p>
-    {% comment %} <a href="{% url 'your_url_name' %}" class="button">
-    Click Here
-    </a> {% endcomment %}
+    <h1>Welcome, {{ account_user.nickname }}.</h1>
+    {% if headlines %}
+    <h2>Recent Headlines</h2>
+    <ul>
+        {% for headline in headlines %}
+        <li>
+            <a href="{% url 'voting:headline_detail' headline.id %}">{{ headline.title }}</a>
+            - Created on {{ headline.creation_date }}
+        </li>
+        {% endfor %}
+    </ul>
+    <p>Want to create a new headline?
+    <a href="{% url 'voting:headline_create' %}">Create New Headline</a></p>
+    {% else %}
+    <p>Ready to create a new headline?
+    <a href="{% url 'voting:headline_create' %}" class="button">
+    Let's Start
+    </a>
+    {% endif %}
 {% endblock %}

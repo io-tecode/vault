@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  
+  <h1>{{ headline.title }}</h1>
+  <h2>" {{ headline.subtitle }} "</h2>
+
+  <h3>Add Votee</h3>
+  {% if votee_details %}
+    <ul>
+        {% for votee in votee_details %}
+        <li>
+            {% comment %} <a href="{% url 'voting:votee_detail' votee.id %}">{{ votee.name }}</a> {% endcomment %}
+            {{ votee.name }} -:- {{ votee.sub_category }}
+        </li>
+        {% endfor %}
+    </ul>
+    <p>Want to create a new Votee Detail?
+    <a href="{% url 'voting:pollinfo_create' %}?headline_id={{ headline.id }}" >Add New Votee Detail</a></p>
+    {% else %}
+    <p>Ready to create a new Votee Detail?
+    <a href="{% url 'voting:pollinfo_create' %}?headline_id={{ headline.id }}" class="button">
+    Let's Start
+    </a>
+    {% endif %}
+  <a href="{% url 'voting:pollinfo_create' %}?headline_id={{ headline.id }}" >Add New Votee</a>
+{% endblock %}

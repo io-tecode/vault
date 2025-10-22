@@ -6,7 +6,8 @@ class HeadlineForm(forms.ModelForm):
     class Meta:
         model = Headline
         # fields = ['title', 'subtitle', 'logo', 'header_img']
-        exclude = ['updated_date']
+        exclude = ['creator', 'updated_date']
+        
 
 
 class PollInformationForm(forms.ModelForm):
