@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div>
+    <div>
+        <div>
+            <div>
+                <div>
+                    Shareable Voting Link
+                </div>
+                <div>
+                    <p >Share this link to allow others to vote:</p>
+                    <div>
+                        <input type="text" value="{{ shareable_link }}" id="shareableLinkInput" readonly>
+                        <div>
+                            <button type="button" onclick="copyLink()">Copy Link</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h2>Scan this QR Code</h2>
+                        <img src="data:image/png;base64,{{ qr_code_image }}" alt="QR Code" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function copyLink() {
+        var copyText = document.getElementById("shareableLinkInput");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); /* For mobile devices */
+        navigator.clipboard.writeText(copyText.value);
+        alert("Link copied to clipboard!");
+    }
+</script>
+{% endblock %}

@@ -4,9 +4,11 @@
 <a href="{% url 'voting:x6sad_dashboard' %}">
     previous page
 </a>
-  <h1>{{ headline.title }}</h1>
-  <h2>" {{ headline.subtitle }} "</h2>
-
+    <h1>{{ headline.title }}</h1>
+    <h2>" {{ headline.subtitle }} "</h2>
+    <a href="{% url 'voting:generate_shareable_link' headline_id=headline.id %}">
+        Generate Shareable Link
+    </a>
   <h3>Add Votee</h3>
   {% if votee_details %}
     <ul>

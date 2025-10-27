@@ -3,6 +3,10 @@ from .models import *
 from django.views.generic import *
 from .forms import *
 from django.contrib.auth.decorators import login_required
+import qrcode
+from io import BytesIO
+from base64 import b64encode
+from django.urls import reverse
 
 
 # @login_required
@@ -76,7 +80,7 @@ def poll_edit_view(request, pk):
         form = PollForm(request.POST, instance=poll)
         if form.is_valid():
             form.save()
-            return redirect('poll_detail', pk=poll.pk)  # Redirect to poll detail view
+            return redirect('poll_detail', pk=poll.pk)
     else:
         form = PollForm(instance=poll)
     return render(request, 'voting/poll_edit.html', {'form': form, 'poll': poll})
@@ -88,5 +92,25 @@ def poll_delete_view(request, pk):
     
     if request.method == 'POST':
         poll.delete()
-        return redirect('voting:x6sad_dashboard')  # Redirect to dashboard or another appropriate page
+        return redirect('voting:x6sad_dashboard') 
     return render(request, 'voting/poll_confirm_delete.html', {'poll': poll})
+
+
+def generate_shareable_link(request, headline_id):
+    headline = get_object_or_404(Headline, pk=headline_id)
+    voting_url = reverse('voting:vote', args=[headline_id])
+    shareable_link = request.build_absolute_uri(voting_url)
+    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4,)
+    qr.add_data(shareable_link)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+    buffer = BytesIO()
+    img.save(buffer, format="PNG")
+    buffer.seek(0)
+    qr_code_image = b64encode(buffer.read()).decode('utf-8')
+    return render(request, 'voting/shareable_link.html', {'shareable_link': shareable_link, 'qr_code_image': qr_code_image})
+
+
+def vote_view(request, headline_id):
+    headline = get_object_or_404(Headline, pk=headline_id)
+    return render(request, 'voting/vote_centre.html', {'headline': headline})

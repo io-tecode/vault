@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block head %}
+    <title>Vote for {{ headline.title }}</title>
+{% endblock %}
+
+{% block content %}
+    <h1>Vote for {{ headline.title }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        <h2>Select your option:</h2>
+        {% for option in headline.poll_information.all %}
+            <div>
+                <input type="radio" id="option_{{ option.id }}" name="option" value="{{ option.id }}">
+                <label for="option_{{ option.id }}">{{ option.text }}</label>
+            </div>
+        {% endfor %}
+        <button type="submit">Vote</button>
+    </form>
+{% endblock %}
