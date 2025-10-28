@@ -111,6 +111,6 @@ def generate_shareable_link(request, headline_id):
     return render(request, 'voting/shareable_link.html', {'shareable_link': shareable_link, 'qr_code_image': qr_code_image})
 
 
-def vote_view(request, headline_id):
+def Nominee_view(request, headline_id):
     headline = get_object_or_404(Headline, pk=headline_id)
     return render(request, 'voting/vote_centre.html', {'headline': headline})

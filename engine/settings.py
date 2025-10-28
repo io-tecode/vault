@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     # installed apps
     'userauth',
     'voting',
-    'panel',
+    'nominee',
     # installed dependencies
     'whitenoise',
     'django_browser_reload',

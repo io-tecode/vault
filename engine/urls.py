@@ -10,9 +10,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("__reload__/", include("django_browser_reload.urls")),
     path('', include('userauth.urls')),
-    path('panel/', include('panel.urls')),
+    path('nominee/', include('nominee.urls')),
     path('sys/', include('voting.urls')),
-]+ static_path + static_path_media
+] + static_path + static_path_media
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
