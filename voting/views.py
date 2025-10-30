@@ -98,7 +98,7 @@ def poll_delete_view(request, pk):
 
 def generate_shareable_link(request, headline_id):
     headline = get_object_or_404(Headline, pk=headline_id)
-    voting_url = reverse('voting:vote', args=[headline_id])
+    voting_url = reverse('nominee:vote', args=[headline_id])
     shareable_link = request.build_absolute_uri(voting_url)
     qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4,)
     qr.add_data(shareable_link)
@@ -110,7 +110,3 @@ def generate_shareable_link(request, headline_id):
     qr_code_image = b64encode(buffer.read()).decode('utf-8')
     return render(request, 'voting/shareable_link.html', {'shareable_link': shareable_link, 'qr_code_image': qr_code_image})
 
-
-def Nominee_view(request, headline_id):
-    headline = get_object_or_404(Headline, pk=headline_id)
-    return render(request, 'voting/vote_centre.html', {'headline': headline})
