@@ -24,6 +24,6 @@
     {% if next %}
         <input type="hidden" name="next" value="{{ next }}"/>
     {% endif %}
-        <p>Don't have an account? <a href="./signup.html">Sign Up</a></p>
+        <p>Don't have an account? <a href="{% url 'userauth:signup' %}">Sign Up</a></p>
   </form>
 {% endblock %}

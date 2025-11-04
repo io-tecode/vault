@@ -99,7 +99,7 @@ def signin(request):
             print(email, password)
             if user is not None:
                 login(request, user)
-                return render(request, '../templates/plate/dashboard.html')
+                return redirect('voting:x6sad_dashboard')
             else:
                 return render(request, '../templates/userauth/login.html', {'form': form, 'next': next_url, 'error': 'Invalid email or password'})
     return render(request, '../templates/userauth/login.html', {'form': form, 'next': next_url})
