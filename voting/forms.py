@@ -16,20 +16,20 @@ class PollInformationForm(forms.ModelForm):
         fields = ['Name', 'sub_category']
 
 
-class PollForm(forms.ModelForm):
-    class Meta:
-        model = Poll
-        fields = ['headline', 'poll_info']
+# class PollForm(forms.ModelForm):
+#     class Meta:
+#         model = Poll
+#         fields = ['headline', 'poll_info']
 
 
-class OptionForm(forms.ModelForm):
-    class Meta:
-        model = Option
-        fields = ['poll', 'opttext']
+# class OptionForm(forms.ModelForm):
+#     class Meta:
+#         model = Option
+#         fields = ['poll', 'opttext']
 
 
-class VoteForm(forms.ModelForm):
-    class Meta:
-        model = Vote
-        fields = ['user', 'option', 'poll']
+# class VoteForm(forms.ModelForm):
+#     class Meta:
+#         model = Vote
+#         fields = ['user', 'option', 'poll']
 

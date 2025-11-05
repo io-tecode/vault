@@ -6,10 +6,10 @@ name = "pypi"
 [packages]
 whitenoise = "*"
 django = "*"
-django-cors-headers = "*"
-django-defender = "*"
 pillow = "*"
 django-browser-reload = "*"
+django-cors-headers = "*"
+django-defender = "*"
 
 [dev-packages]
 

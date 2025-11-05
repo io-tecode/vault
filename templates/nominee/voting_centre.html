@@ -8,13 +8,11 @@
         {% csrf_token %}
         {% for sub_category, nominees in grouped_nominees %}
             <h3>{{ sub_category }}</h3>
-            {% for option in nominee %}
-                {% if option.sub_category == sub_category %}
-                    <div>
-                        <input type="radio" id="option_{{ option.id }}" name="option" value="{{ option.id }}">
-                        <label for="option_{{ option.id }}">{{ option.Name }}</label>
-                    </div>
-                {% endif %}
+            {% for option in nominees %}
+                <div>
+                    <input type="radio" id="option_{{ option.id }}" name="option_{{ sub_category }}" value="{{ option.id }}">
+                    <label for="option_{{ option.id }}">{{ option.Name }}</label>
+                </div>
             {% endfor %}
         {% endfor %}
         <button type="submit">Vote</button>

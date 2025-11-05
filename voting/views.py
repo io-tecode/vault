@@ -66,34 +66,34 @@ def votee_detail(request, id):
     return render(request, '../templates/voting/votee_detail.html', {'poll_info': poll_info})
 
 
-@login_required
-class poll_detail_view(DetailView):
-    model = Poll
-    template_name = 'voting/poll_detail.html'
-    context_object_name = 'poll_detail'
+# @login_required
+# class poll_detail_view(DetailView):
+#     model = Poll
+#     template_name = 'voting/poll_detail.html'
+#     context_object_name = 'poll_detail'
 
 
-@login_required
-def poll_edit_view(request, pk):
-    poll = get_object_or_404(Poll, pk=pk)
-    if request.method == 'POST':
-        form = PollForm(request.POST, instance=poll)
-        if form.is_valid():
-            form.save()
-            return redirect('poll_detail', pk=poll.pk)
-    else:
-        form = PollForm(instance=poll)
-    return render(request, 'voting/poll_edit.html', {'form': form, 'poll': poll})
+# @login_required
+# def poll_edit_view(request, pk):
+#     poll = get_object_or_404(Poll, pk=pk)
+#     if request.method == 'POST':
+#         form = PollForm(request.POST, instance=poll)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('poll_detail', pk=poll.pk)
+#     else:
+#         form = PollForm(instance=poll)
+#     return render(request, 'voting/poll_edit.html', {'form': form, 'poll': poll})
 
 
-@login_required
-def poll_delete_view(request, pk):
-    poll = get_object_or_404(Poll, pk=pk)
+# @login_required
+# def poll_delete_view(request, pk):
+#     poll = get_object_or_404(Poll, pk=pk)
     
-    if request.method == 'POST':
-        poll.delete()
-        return redirect('voting:x6sad_dashboard') 
-    return render(request, 'voting/poll_confirm_delete.html', {'poll': poll})
+#     if request.method == 'POST':
+#         poll.delete()
+#         return redirect('voting:x6sad_dashboard') 
+#     return render(request, 'voting/poll_confirm_delete.html', {'poll': poll})
 
 
 def generate_shareable_link(request, headline_id):
