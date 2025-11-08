@@ -46,8 +46,8 @@ INSTALLED_APPS = [
     'whitenoise',
     'django_browser_reload',
     'corsheaders',
-    'pillow',
-    'django-cors-headers',
+    # 'pillow',
+    # 'django-cors-headers',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -59,10 +59,10 @@ AUTH_USER_MODEL = 'userauth.CustomUser'
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',

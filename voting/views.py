@@ -40,7 +40,7 @@ def headline_view(request):
 @login_required
 def headline_detail(request, pk):
     headline = get_object_or_404(Headline, pk=pk)
-    votee_details = Poll_information.objects.filter(headline_id=headline.id).order_by('headline_id')
+    votee_details = Poll_information.objects.filter(headline_id=headline.id).order_by('votes')
     return render(request, '../templates/voting/headline_detail.html', {'headline': headline, 'votee_details': votee_details})
 
 

@@ -70,12 +70,12 @@ class Poll_information(models.Model):
         return self.Name
 
 
-# class Poll(models.Model):
-#     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-#     headline = models.ForeignKey(Headline, on_delete=models.CASCADE)
-#     poll_info = models.ForeignKey(Poll_information, on_delete=models.CASCADE)
-#     pub_date = models.DateField(auto_created=True)
-#     updated_date = models.DateField(auto_now_add=True)
+class Poll(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    headline = models.ForeignKey(Headline, on_delete=models.CASCADE)
+    poll_info = models.ForeignKey(Poll_information, on_delete=models.CASCADE)
+    pub_date = models.DateField(auto_created=True)
+    updated_date = models.DateField(auto_now_add=True)
 
 
 # class Option(models.Model):

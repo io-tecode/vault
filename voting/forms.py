@@ -16,10 +16,10 @@ class PollInformationForm(forms.ModelForm):
         fields = ['Name', 'sub_category']
 
 
-# class PollForm(forms.ModelForm):
-#     class Meta:
-#         model = Poll
-#         fields = ['headline', 'poll_info']
+class PollForm(forms.ModelForm):
+    class Meta:
+        model = Poll
+        fields = ['headline', 'poll_info']
 
 
 # class OptionForm(forms.ModelForm):
