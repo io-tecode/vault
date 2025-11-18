@@ -12,7 +12,7 @@ class Vote(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('user', 'poll_info', 'headline')
+        unique_together = ('user', 'headline')
 
     def __str__(self):
         return f"{self.user.username} voted for {self.poll_info.Name} in {self.headline.title}"
