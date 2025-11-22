@@ -1,10 +1,57 @@
 {% extends 'base.html' %}
 
+{% block head %}
+    <title>{{ poll_info.Name }}</title>
+{% endblock %}
+
 {% block content %}
-<a href="{% url 'voting:headline_detail' poll_info.headline.id %}">
-    previous page
-</a>
-    <h1>{{ poll_info.Name }}</h1>
-    <h3>Sub-category: {{ poll_info.sub_category }}</h3>
-    <p>Associated Headline: {{ poll_info.headline.title }}</p>
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-orange-50 py-8">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Back Navigation -->
+        <a href="{% url 'voting:headline_detail' poll_info.headline.id %}" 
+           class="inline-flex items-center text-[#E01305] hover:text-[#FE3B15] font-medium mb-6 transition-colors duration-200">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Previous Page
+        </a>
+
+        <!-- Main Card -->
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-[#E01305] to-[#FA7305] px-8 py-6">
+                <h1 class="text-3xl font-bold text-white">{{ poll_info.Name }}</h1>
+            </div>
+
+            <!-- Content -->
+            <div class="px-8 py-8 space-y-6">
+                <!-- Sub-category -->
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <svg class="w-6 h-6 text-[#FA7305] mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-sm font-semibold text-gray-600 uppercase tracking-wide mb-1">Sub-category</h3>
+                        <p class="text-lg font-medium text-gray-900">{{ poll_info.sub_category }}</p>
+                    </div>
+                </div>
+
+                <!-- Associated Headline -->
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <svg class="w-6 h-6 text-[#FA7305] mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-sm font-semibold text-gray-600 uppercase tracking-wide mb-1">Associated Headline</h3>
+                        <p class="text-lg font-medium text-gray-900">{{ poll_info.headline.title }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -1,9 +1,28 @@
 {% extends 'base.html' %}
 
+{% block head %}
+    <title>Submit Form</title>
+{% endblock %}
+
 {% block content %}
-<form method="post" enctype="application/x-www-form-urlencoded">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-orange-50 py-8">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+            <form method="post" enctype="application/x-www-form-urlencoded" class="space-y-6">
+                {% csrf_token %}
+                
+                <div class="space-y-6">
+                    {{ form.as_p }}
+                </div>
+                
+                <div class="flex justify-center pt-4">
+                    <button type="submit" 
+                            class="px-8 py-3 bg-gradient-to-r from-[#E01305] to-[#FA7305] text-white font-semibold rounded-lg shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-[#FA7305] focus:ring-opacity-50 transition-all duration-200">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
