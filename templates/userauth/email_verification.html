@@ -3,6 +3,7 @@
 {% block head %}
 {% endblock %}
 {% block content %}
+
 <div>
     <div class="brand-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -11,7 +12,6 @@
         </svg>
     </div>
     <h2>Verify Your Email</h2>
-    {% comment %} <form method="post" action="{% url 'email_verification' %}> {% endcomment %}
     <form method="post">
         {% csrf_token %}
         {% if messages %}

@@ -1,10 +1,134 @@
 {% extends "base.html" %}
 
+{% block head %}
+    <title>Sign Up</title>
+{% endblock %}
+
 {% block content %}
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Sign Up</button>
-    <p>Have an account? <a href="{% url 'userauth:login' %}">Log In</a></p>
-</form>
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-orange-50 flex items-center justify-center px-4 py-12">
+    <div class="max-w-md w-full">
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+            <div class="bg-gradient-to-r from-primary to-secondary px-8 py-6 text-center">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-white rounded-full mb-4">
+                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-white">Create Your Account</h2>
+            </div>
+            <div class="px-8 py-8">
+                <form method="post" class="space-y-6">
+                    {% csrf_token %}
+                    
+                    <div class="space-y-6">
+                        {{ form.as_p }}
+                    </div>
+                    <div class="pt-2">
+                        <button type="submit" 
+                                class="w-full flex items-center justify-center px-8 py-3 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-lg shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-secondary focus:ring-opacity-50 transition-all duration-200 transform hover:scale-105">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                            </svg>
+                            Sign Up
+                        </button>
+                    </div>
+                </form>
+                <div class="mt-6 text-center">
+                    <p class="text-gray-600">
+                        Have an account? 
+                        <a href="{% url 'userauth:login' %}" class="text-primary hover:text-primary-light font-semibold transition-colors duration-200">
+                            Log In
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="mt-6 text-center text-sm text-gray-600">
+            <p>By signing up, you agree to our <a href="#" class="text-primary hover:text-primary-light">Terms of Service</a> and <a href="#" class="text-primary hover:text-primary-light">Privacy Policy</a></p>
+        </div>
+    </div>
+</div>
+
+<style>
+    form p {
+        margin-bottom: 1.5rem;
+    }
+
+    form label {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 0.5rem;
+    }
+    
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="password"],
+    form input[type="number"],
+    form select,
+    form textarea {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        transition: all 0.2s;
+    }
+    
+    form input:focus,
+    form select:focus,
+    form textarea:focus {
+        outline: none;
+        ring: 2px;
+        ring-color: #FA7305;
+        border-color: transparent;
+    }
+    
+    form input[type="checkbox"],
+    form input[type="radio"] {
+        width: 1.25rem;
+        height: 1.25rem;
+        border: 2px solid #d1d5db;
+        border-radius: 0.375rem;
+        cursor: pointer;
+    }
+    
+    form input[type="checkbox"]:checked,
+    form input[type="radio"]:checked {
+        background-color: #E01305;
+        border-color: #E01305;
+    }
+    
+    form textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+    
+    form .errorlist {
+        list-style: none;
+        padding: 0;
+        margin: 0.5rem 0 0 0;
+        font-size: 0.875rem;
+        color: #dc2626;
+    }
+    
+    form .helptext {
+        display: block;
+        margin-top: 0.5rem;
+        font-size: 0.875rem;
+        color: #6b7280;
+    }
+
+    form ul.errorlist li {
+        display: flex;
+        align-items: center;
+        margin-top: 0.25rem;
+    }
+
+    form ul.errorlist li:before {
+        content: "⚠";
+        margin-right: 0.5rem;
+    }
+</style>
 {% endblock %}

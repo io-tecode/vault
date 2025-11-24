@@ -1,5 +1,50 @@
 {% extends "base.html" %}
 {% load static %}
+
+{% block head %}
+    <title>Home</title>
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-orange-50 flex items-center justify-center px-4">
+    <div class="max-w-4xl w-full text-center">
+        <div class="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-primary to-secondary rounded-full mb-8 shadow-xl">
+            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+        </div>
+        <h3 class="text-5xl sm:text-6xl font-bold text-gray-900 mb-4">
+            Welcome to <span class="text-primary">Vault</span>
+            (Voting System)
+        </h3>
+        <p class="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
+            Create polls, manage campaigns, and collect votes with our secure and easy-to-use platform.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a href="{% url 'userauth:signup' %}" 
+               class="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-secondary focus:ring-opacity-50 transition-all duration-200 transform hover:scale-105 w-full sm:w-auto">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                </svg>
+                Sign Up
+            </a>
+            <a href="{% url 'userauth:login' %}" 
+               class="inline-flex items-center justify-center px-8 py-4 bg-white text-primary font-semibold text-lg rounded-xl border-2 border-primary hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-primary focus:ring-opacity-30 transition-all duration-200 shadow-md hover:shadow-lg w-full sm:w-auto">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+                </svg>
+                Sign In
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+{% comment %} {% extends "base.html" %}
+{% load static %}
 {% block head %}
     <title>Home</title>
 {% endblock %}
@@ -7,4 +52,4 @@
 {% block content %}
     <a href="{% url 'userauth:signup' %}">Sign Up</a> | 
     <a href="{% url 'userauth:login' %}">Sign In</a>
-{% endblock %}
+{% endblock %} {% endcomment %}

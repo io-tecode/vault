@@ -9,40 +9,31 @@
     <div class="min-h-screen bg-gradient-to-br from-gray-50 to-orange-50 py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-2xl mx-auto">
             <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-                <!-- Header -->
                 <div class="bg-gradient-to-r from-[#E01305] to-[#FA7305] px-8 py-6">
                     <h1 class="text-2xl font-bold text-white">Email Verification</h1>
                 </div>
-
-                <!-- Content -->
                 <div class="px-8 py-8 space-y-6">
                     <p class="text-gray-800">
                         Dear <span class="font-semibold text-[#E01305]">{{ user.first_name }}</span>,
                     </p>
-
                     <p class="text-gray-700">
                         Thank you for signing up! To complete your registration, please use the following verification code:
                     </p>
-
-                    <!-- Verification Code -->
                     <div class="bg-gradient-to-br from-orange-50 to-red-50 border-2 border-[#FA7305] rounded-xl p-6 text-center">
                         <p class="text-sm text-gray-600 mb-2 font-medium">Verification Code</p>
                         <p class="text-3xl font-bold text-[#E01305] tracking-wider font-mono">
                             {{ gen_code }}
                         </p>
                     </div>
-
                     <p class="text-gray-700">
                         Alternatively, you can click on the link below to verify your account:
                     </p>
-
                     <div class="text-center">
                         <a href="http://{{ domain }}{% url 'userauth:email_verification' %}" 
                            class="inline-block px-6 py-3 bg-gradient-to-r from-[#E01305] to-[#FA7305] text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200">
                             Verify Account
                         </a>
                     </div>
-
                     <div class="bg-gray-50 rounded-lg p-4">
                         <p class="text-xs text-gray-600 break-all">
                             <a href="http://{{ domain }}{% url 'userauth:email_verification' %}" 
@@ -51,15 +42,12 @@
                             </a>
                         </p>
                     </div>
-
                     <p class="text-gray-700">
                         If you did not request this, please ignore this email.
                     </p>
-
                     <p class="text-gray-700">
                         Thank you!
                     </p>
-
                     <p class="text-sm text-gray-500 italic">
                         This is an automated message, please do not reply.
                     </p>

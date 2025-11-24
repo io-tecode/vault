@@ -4,7 +4,6 @@
 {% block content %}
 <div class="min-h-screen bg-gradient-to-br from-gray-50 to-orange-50 py-8">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Back Navigation -->
         <a href="javascript:history.back()" 
            class="inline-flex items-center text-[#E01305] hover:text-[#FE3B15] font-medium mb-6 transition-colors duration-200"
            aria-label="Go back">
@@ -13,10 +12,7 @@
             </svg>
             Back
         </a>
-
-        <!-- Main Card -->
         <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-            <!-- Header -->
             <div class="bg-gradient-to-r from-[#E01305] to-[#FA7305] px-8 py-6">
                 <div class="flex items-center">
                     <svg class="w-8 h-8 text-white mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -25,10 +21,7 @@
                     <h1 class="text-2xl sm:text-3xl font-bold text-white">Shareable Voting Link</h1>
                 </div>
             </div>
-
-            <!-- Content -->
             <div class="p-8">
-                <!-- Link Section -->
                 <div class="mb-8">
                     <p class="text-gray-700 text-lg mb-4 font-medium">Share this link to allow others to vote:</p>
                     
@@ -55,8 +48,6 @@
                             </button>
                         </div>
                     </div>
-
-                    <!-- Success Message (Hidden by default) -->
                     <div id="copySuccess" class="hidden mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
                         <div class="flex items-center text-green-700">
                             <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -66,8 +57,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Divider -->
                 <div class="relative my-8">
                     <div class="absolute inset-0 flex items-center" aria-hidden="true">
                         <div class="w-full border-t border-gray-200"></div>
@@ -76,8 +65,6 @@
                         <span class="px-4 bg-white text-sm text-gray-500 font-medium">OR</span>
                     </div>
                 </div>
-
-                <!-- QR Code Section -->
                 <div class="text-center">
                     <h2 class="text-2xl font-semibold text-gray-800 mb-4">Scan this QR Code</h2>
                     <p class="text-gray-600 mb-6">Use your phone's camera to quickly access the voting page</p>
@@ -89,8 +76,6 @@
                             class="max-w-full h-auto mx-auto"
                             style="max-width: 300px;">
                     </div>
-
-                    <!-- Download QR Code Button (Optional) -->
                     <div class="mt-6">
                         <a 
                             href="data:image/png;base64,{{ qr_code_image }}" 
@@ -102,23 +87,6 @@
                             </svg>
                             Download QR Code
                         </a>
-                    </div>
-                </div>
-
-                <!-- Info Box -->
-                <div class="mt-8 bg-orange-50 border border-orange-200 rounded-lg p-4">
-                    <div class="flex items-start">
-                        <svg class="w-6 h-6 text-[#FA7305] mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
-                        </svg>
-                        <div>
-                            <h3 class="font-semibold text-gray-900 mb-1">Sharing Tips</h3>
-                            <ul class="text-sm text-gray-700 space-y-1">
-                                <li>• Share the link via email, social media, or messaging apps</li>
-                                <li>• Print the QR code for physical distribution</li>
-                                <li>• The link will remain active throughout the voting period</li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </div>

@@ -7,7 +7,6 @@
 {% block content %}
     <div class="min-h-screen bg-gradient-to-br from-gray-50 to-orange-50 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Header Card -->
             <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 mb-8">
                 <div class="flex items-start">
                     <div class="flex-shrink-0">
@@ -26,8 +25,6 @@
                         </p>
                     </div>
                 </div>
-                
-                <!-- Instructions -->
                 <div class="mt-6 bg-orange-50 border border-orange-200 rounded-lg p-4">
                     <div class="flex items-start">
                         <svg class="w-5 h-5 text-[#FA7305] mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -39,12 +36,8 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Voting Form -->
             <form method="post" class="space-y-6">
                 {% csrf_token %}
-                
-                <!-- Voting Table Card -->
                 <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
@@ -93,8 +86,6 @@
                         </table>
                     </div>
                 </div>
-                
-                <!-- Submit Button -->
                 <div class="flex flex-col items-center space-y-4 pt-4 pb-8">
                     <button type="submit" 
                             class="group relative inline-flex items-center justify-center px-12 py-4 bg-gradient-to-r from-[#E01305] to-[#FA7305] text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-[#FA7305] focus:ring-opacity-50 transition-all duration-200 transform hover:scale-105">
@@ -103,14 +94,11 @@
                         </svg>
                         Submit Your Vote
                     </button>
-                    
                     <p class="text-sm text-gray-500">
                         Make sure you've selected a nominee for each position
                     </p>
                 </div>
             </form>
-            
-            <!-- Security Notice -->
             <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6 mt-6">
                 <div class="flex items-start">
                     <svg class="w-6 h-6 text-green-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -123,17 +111,13 @@
             </div>
         </div>
     </div>
-
     <style>
-        /* Custom radio button styling */
         input[type="radio"]:checked {
             background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e");
         }
-        
         input[type="radio"]:checked:hover {
             background-color: #E01305;
         }
-        
         input[type="radio"]:checked:focus {
             background-color: #E01305;
         }

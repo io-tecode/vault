@@ -9,12 +9,10 @@
         </svg>
         Previous Page
     </a>
-
     <div class="bg-white rounded-lg shadow-sm p-6 mb-6 border border-gray-100">
         <h1 class="text-3xl font-bold text-gray-800 mb-2">{{ headline.title }}</h1>
         <h2 class="text-xl text-gray-600 italic">" {{ headline.subtitle }} "</h2>
     </div>
-
     <div class="mb-8">
         <a href="{% url 'voting:generate_shareable_link' headline_id=headline.id %}" 
            class="inline-flex items-center px-6 py-3 bg-secondary text-white font-semibold rounded-lg hover:bg-primary focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 transition-all duration-200 shadow-sm hover:shadow-md">
@@ -24,9 +22,7 @@
             Generate Shareable Link
         </a>
     </div>
-
     <h3 class="text-2xl font-semibold text-gray-700 mb-6">Add Votee</h3>
-
     {% if votee_details %}
         <div class="bg-white rounded-lg shadow-sm border border-gray-100 mb-6 overflow-hidden">
             <ul class="divide-y divide-gray-100">
@@ -43,7 +39,6 @@
                 {% endfor %}
             </ul>
         </div>
-        
         <div class="bg-gradient-to-r from-orange-50 to-red-50 rounded-lg p-6 border border-orange-100">
             <p class="text-gray-700 text-base mb-3 sm:mb-0 sm:inline-block">
                 Want to create a new Votee Detail?

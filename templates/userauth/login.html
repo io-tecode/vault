@@ -1,29 +1,115 @@
 {% extends 'base.html' %}
 
+{% block head %}
+    <title>Log In</title>
+{% endblock %}
+
 {% block content %}
-  <h2>Log in to the Site</h2>
-  {% if form.errors %}
-    <p style="color: red">Your username and password didn't match. Please try again.</p>
-  {% endif %}
-  <form method="post">
-    {% csrf_token %}
-    <input type="hidden" name="next" value="{{ next }}" />
-    {% for field in form %}
-      <p>
-        {{ field.label_tag }}<br>
-        {{ field }}<br>
-        {% for error in field.errors %}
-          <p style="color: red">{{ error }}</p>
-        {% endfor %}
-        {% if field.help_text %}
-          <p><small style="color: grey">{{ field.help_text }}</small></p>
-        {% endif %}
-      </p>
-    {% endfor %}
-    <button type="submit">Log in</button>
-    {% if next %}
-        <input type="hidden" name="next" value="{{ next }}"/>
-    {% endif %}
-        <p>Don't have an account? <a href="{% url 'userauth:signup' %}">Sign Up</a></p>
-  </form>
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-orange-50 flex items-center justify-center px-4 py-12">
+    <div class="max-w-md w-full">
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+            <div class="bg-gradient-to-r from-primary to-secondary px-8 py-6 text-center">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-white rounded-full mb-4">
+                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-white">Log in to the Site</h2>
+            </div>
+            <div class="px-8 py-8">
+                {% if form.errors %}
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                        <div class="flex items-start">
+                            <svg class="w-5 h-5 text-red-500 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                            </svg>
+                            <p class="text-sm text-red-800">Your username and password didn't match. Please try again.</p>
+                        </div>
+                    </div>
+                {% endif %}
+                <form method="post" class="space-y-6">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ next }}" />
+                    {% for field in form %}
+                        <div>
+                            <label for="{{ field.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                                {{ field.label }}
+                                {% if field.field.required %}
+                                    <span class="text-primary">*</span>
+                                {% endif %}
+                            </label>
+                            <input type="{{ field.field.widget.input_type|default:'text' }}" 
+                                   name="{{ field.name }}" 
+                                   id="{{ field.id_for_label }}"
+                                   value="{{ field.value|default:'' }}"
+                                   {% if field.field.required %}required{% endif %}
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all duration-200"
+                                   placeholder="{{ field.label }}">
+                            {% if field.help_text %}
+                                <p class="mt-2 text-sm text-gray-500">{{ field.help_text }}</p>
+                            {% endif %}
+                            {% if field.errors %}
+                                <div class="mt-2 text-sm text-red-600">
+                                    {% for error in field.errors %}
+                                        <p class="flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                            </svg>
+                                            {{ error }}
+                                        </p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    <div class="pt-2">
+                        <button type="submit" 
+                                class="w-full flex items-center justify-center px-8 py-3 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-lg shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-secondary focus:ring-opacity-50 transition-all duration-200 transform hover:scale-105">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+                            </svg>
+                            Log in
+                        </button>
+                    </div>
+                </form>
+                <div class="mt-6 text-center">
+                    <p class="text-gray-600">
+                        Don't have an account? 
+                        <a href="{% url 'userauth:signup' %}" class="text-primary hover:text-primary-light font-semibold transition-colors duration-200">
+                            Sign Up
+                        </a>
+                    </p>
+                </div>
+                <div class="mt-4 text-center">
+                    <a href="#" class="text-sm text-gray-500 hover:text-secondary transition-colors duration-200">
+                        Forgot your password?
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="mt-6 text-center text-sm text-gray-600">
+            <p>By logging in, you agree to our <a href="#" class="text-primary hover:text-primary-light">Terms of Service</a> and <a href="#" class="text-primary hover:text-primary-light">Privacy Policy</a></p>
+        </div>
+    </div>
+</div>
+
+<style>
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="password"] {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        transition: all 0.2s;
+    }
+    
+    form input:focus {
+        outline: none;
+        ring: 2px;
+        ring-color: #FA7305;
+        border-color: transparent;
+    }
+</style>
 {% endblock %}
