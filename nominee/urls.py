@@ -6,4 +6,5 @@ app_name = 'nominee'
 urlpatterns = [
         path('vote/<uuid:headline_id>/', Nominee_view, name='vote'),
         path('vote_success/', vote_success, name='vote_success'),
+        path('vote_analysis/<uuid:headline_id>/', nominee_analysis, name='nominee_analysis'),
 ]

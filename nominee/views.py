@@ -8,6 +8,7 @@ from django.db import transaction
 from itertools import groupby
 from .models import Headline, Poll_information, Vote
 
+
 def Nominee_view(request, headline_id):
     headline = get_object_or_404(Headline, id=headline_id)
     if request.method == 'POST':
@@ -31,10 +32,7 @@ def Nominee_view(request, headline_id):
             messages.error(request, f'An error occurred while recording your vote: {e}')
             return redirect('nominee:vote', headline_id=headline_id)
     nominees = Poll_information.objects.filter(headline=headline).only('id', 'sub_category', 'Name', 'headline').order_by('sub_category')
-    grouped_nominees = [
-        (sub_category, list(group))
-        for sub_category, group in groupby(nominees, key=lambda x: x.sub_category)
-    ]
+    grouped_nominees = [(sub_category, list(group)) for sub_category, group in groupby(nominees, key=lambda x: x.sub_category)]
     return render(request, 'nominee/voting_centre.html', {'headline': headline, 'grouped_nominees': grouped_nominees})
 
 
@@ -42,7 +40,13 @@ def vote_success(request):
     return render(request, 'nominee/vote_success.html')
 
 
-# def nominee_analysis(request, headline_id):
-    # headline = get_object_or_404(Headline, id=headline_id)
-    # nominees = Poll_information.objects.filter(headline=headline).only('id', 'sub_category', 'Name', 'headline').order_by('sub_category')
-    # nominees_votes = nominees.annotate(vote_count=models.Count('vote'))                   
+def nominee_analysis(request, headline_id):
+    headline = get_object_or_404(Headline, id=headline_id)
+    nominees = Poll_information.objects.filter(headline=headline).only('id', 'sub_category', 'Name', 'headline').order_by('sub_category')
+    votes_count = Vote.objects.filter(headline=headline).values('poll_info').annotate(vote_count=models.Count('id'))
+    votes_dict = {vote['poll_info']: vote['vote_count'] for vote in votes_count}
+    for nominee in nominees:
+        nominee.vote_count = votes_dict.get(nominee.id, 0)
+    grouped_nominees = [(sub_category, list(group)) for sub_category, group in groupby(nominees, key=lambda x: x.sub_category)]
+    return render(request, 'nominee/nominee_analysis.html', {'headline': headline, 'grouped_nominees': grouped_nominees})
+                  
