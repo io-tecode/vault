@@ -18,9 +18,14 @@ from .models import CustomUser, VertifyUser
 from .forms import UserSignUp, LoginForm, UserSignUp, passwordChangeForm 
 from django.utils import timezone
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
+
+
+@login_required
 def home(request):
     return render(request, '../templates/plate/home.html')  
+
 
 @csrf_protect
 def signup(request):
@@ -66,26 +71,6 @@ def signup(request):
     return render(request, '../templates/userauth/signup.html', {'form': form})
 
 
-
-#account activation function
-# def activate(request, uidb64, token):
-#     try:
-#         uid = force_str(urlsafe_base64_decode(uidb64))
-#         user = CustomUser.objects.get(pk=uid)
-#     except(TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
-#         user = None
-#     if user is not None and activate_token.check_token(user, token):
-#         user.is_verified = True
-#         user.is_active = True
-#         user.save()
-#         login(request, user, backend='userauth.backends.EmailBackend')
-#         return redirect('/')
-        
-#     else:
-#         return render(request, '../templates/404.html')
-
-
-
 @csrf_protect
 def signin(request):
     form = LoginForm(data=request.POST)
@@ -106,14 +91,12 @@ def signin(request):
 
 
 
-
+@csrf_protect
 def signout(request):
     logout(request)
     return redirect('/')
      
 
-
-#intialization function depending on settings
 @csrf_protect
 def password_reset(request):
     if request.method == 'POST':

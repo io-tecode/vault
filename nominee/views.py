@@ -7,8 +7,10 @@ from django.contrib import messages
 from django.db import transaction
 from itertools import groupby
 from .models import Headline, Poll_information, Vote
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def Nominee_view(request, headline_id):
     headline = get_object_or_404(Headline, id=headline_id)
     if request.method == 'POST':
@@ -36,10 +38,11 @@ def Nominee_view(request, headline_id):
     return render(request, 'nominee/voting_centre.html', {'headline': headline, 'grouped_nominees': grouped_nominees})
 
 
+@login_required
 def vote_success(request):
     return render(request, 'nominee/vote_success.html')
 
-
+@login_required
 def nominee_analysis(request, headline_id):
     headline = get_object_or_404(Headline, id=headline_id)
     nominees = Poll_information.objects.filter(headline=headline).only('id', 'sub_category', 'Name', 'headline').order_by('sub_category')
