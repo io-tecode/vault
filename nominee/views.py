@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 
 
 @login_required
-def Nominee_view(request, headline_id):
+def nominee_view(request, headline_id):
     headline = get_object_or_404(Headline, id=headline_id)
     if request.method == 'POST':
         selected_options = []

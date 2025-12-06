@@ -7,7 +7,7 @@ import qrcode
 from io import BytesIO
 from base64 import b64encode
 from django.urls import reverse
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.http import require_http_methods
 
 
 # @login_required
@@ -18,7 +18,6 @@ from django.views.decorators.csrf import csrf_protect
 
 
 @login_required
-@csrf_protect
 def dashboard_view(request):
     account_user = request.user
     headlines = Headline.objects.filter(creator=account_user).order_by('-creation_date')
@@ -26,7 +25,6 @@ def dashboard_view(request):
 
 
 @login_required
-@csrf_protect
 def headline_view(request):
     if request.method == 'POST':
         form = HeadlineForm(request.POST, request.FILES)
@@ -41,7 +39,6 @@ def headline_view(request):
 
 
 @login_required
-@csrf_protect
 def headline_detail(request, pk):
     headline = get_object_or_404(Headline, pk=pk)
     votee_details = Poll_information.objects.filter(headline_id=headline.id).order_by('headline_id')
@@ -49,7 +46,6 @@ def headline_detail(request, pk):
 
 
 @login_required
-@csrf_protect
 def poll_info_view(request):
     headline_id = request.GET.get('headline_id')
     headline = get_object_or_404(Headline, pk=headline_id)
@@ -66,7 +62,6 @@ def poll_info_view(request):
 
 
 @login_required
-@csrf_protect
 def votee_detail(request, id):
     poll_info = get_object_or_404(Poll_information, id=id)
     return render(request, '../templates/voting/votee_detail.html', {'poll_info': poll_info})
@@ -102,7 +97,7 @@ def votee_detail(request, id):
 #     return render(request, 'voting/poll_confirm_delete.html', {'poll': poll})
 
 @login_required
-@csrf_protect
+@require_http_methods(['GET'])
 def generate_shareable_link(request, headline_id):
     headline = get_object_or_404(Headline, pk=headline_id)
     voting_url = reverse('nominee:vote', args=[headline_id])

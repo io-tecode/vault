@@ -8,7 +8,7 @@ from django.template.loader import render_to_string
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.conf import settings
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.http import require_http_methods
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from .validator import activate_token
@@ -27,7 +27,7 @@ def home(request):
     return render(request, '../templates/plate/home.html')  
 
 
-@csrf_protect
+@login_required
 def signup(request):
     if request.method == 'POST':
         form = UserSignUp(request.POST)
@@ -71,7 +71,7 @@ def signup(request):
     return render(request, '../templates/userauth/signup.html', {'form': form})
 
 
-@csrf_protect
+@login_required
 def signin(request):
     form = LoginForm(data=request.POST)
     next_url = request.GET.get('next')
@@ -91,13 +91,13 @@ def signin(request):
 
 
 
-@csrf_protect
+@require_http_methods(['POST'])
 def signout(request):
     logout(request)
     return redirect('/')
      
 
-@csrf_protect
+@login_required
 def password_reset(request):
     if request.method == 'POST':
         form = PasswordResetForm(request.POST)
@@ -133,7 +133,7 @@ def password_reset(request):
 
 
 
-@csrf_protect
+@login_required
 def resetPage(request):
     if request.method == 'POST':
         password = request.POST['password']
@@ -148,13 +148,14 @@ def resetPage(request):
     return render(request, 'authentication_app/password_reset/password_reset_form.html')
 
 
-@csrf_protect
+
+@login_required
 def resetPageDone(request):
      return render(request, 'authentication_app/password_reset/password_reset_done.html')
 
 
 
-@csrf_protect
+@login_required
 def reset_password_confirm(request, uidb64, token):
     try:
         uid =force_str(urlsafe_base64_decode(uidb64))
@@ -181,7 +182,7 @@ def reset_password_confirm(request, uidb64, token):
     
 
 
-@csrf_protect
+@login_required
 def email_verification(request):
     print("email_verification view called")
     if request.method == 'POST':
