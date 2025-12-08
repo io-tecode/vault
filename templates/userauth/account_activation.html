@@ -1,15 +1,58 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block head %}
+    <title>Email Verification</title>
+{% endblock %}
+
 {% block content %}
-    <p>Dear {{ user.first_name }},</p>
-    <p>Thank you for signing up! To complete your registration, please use the following verification code:</p>
-    <p>{{ gen_code }}</p>
-    <p>Alternatively, you can click on the link below to verify your account:</p>
-    <p>
-        <a href="http://{{ domain }}{% url 'userauth:email_verification' %}">http://{{ domain }}{% url 'userauth:email_verification' %}</a>
-    </p>
-    <p>If you did not request this, please ignore this email.</p>
-    <p>Thank you!</p>
-    <p>This is an automated message, please do not reply.</p>
+    <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl mx-auto">
+            <div class="bg-[#E9F5FF] rounded-2xl shadow-xl overflow-hidden">
+                <div class="bg-[#1156B0] px-8 py-6">
+                    <h1 class="text-2xl font-bold text-[#E9F5FF]">Email Verification</h1>
+                </div>
+                <div class="px-8 py-8 space-y-6">
+                    <p class="text-[#1F1F1F]">
+                        Dear <span class="font-semibold text-[#1156B0]">{{ user.first_name }}</span>,
+                    </p>
+                    <p class="text-[#1F1F1F]">
+                        Thank you for signing up! To complete your registration, please use the following verification code:
+                    </p>
+                    <div class="bg-[#93BFEF] bg-opacity-30 backdrop-blur-sm border-2 border-[#1156B0] rounded-xl p-6 text-center">
+                        <p class="text-sm text-[#1F1F1F] mb-2 font-medium">Verification Code</p>
+                        <p class="text-3xl font-bold text-[#1156B0] tracking-wider font-mono">
+                            {{ gen_code }}
+                        </p>
+                    </div>
+                    <p class="text-[#1F1F1F]">
+                        Alternatively, you can click on the link below to verify your account:
+                    </p>
+                    <div class="text-center">
+                        <a href="http://{{ domain }}{% url 'userauth:email_verification' %}" 
+                           class="inline-block px-6 py-3 bg-[#1156B0] text-[#E9F5FF] font-semibold rounded-lg shadow-lg hover:shadow-xl hover:bg-[#93BFEF] transition-all duration-200">
+                            Verify Account
+                        </a>
+                    </div>
+                    <div class="bg-[#93BFEF] bg-opacity-20 rounded-lg p-4">
+                        <p class="text-xs text-[#1F1F1F] break-all">
+                            <a href="http://{{ domain }}{% url 'userauth:email_verification' %}" 
+                               class="text-[#1156B0] hover:text-[#93BFEF]">
+                                http://{{ domain }}{% url 'userauth:email_verification' %}
+                            </a>
+                        </p>
+                    </div>
+                    <p class="text-[#1F1F1F]">
+                        If you did not request this, please ignore this email.
+                    </p>
+                    <p class="text-[#1F1F1F]">
+                        Thank you!
+                    </p>
+                    <p class="text-sm text-[#1F1F1F] opacity-60 italic">
+                        This is an automated message, please do not reply.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

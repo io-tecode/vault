@@ -8,7 +8,8 @@ from django.template.loader import render_to_string
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.conf import settings
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from .validator import activate_token
@@ -18,9 +19,14 @@ from .models import CustomUser, VertifyUser
 from .forms import UserSignUp, LoginForm, UserSignUp, passwordChangeForm 
 from django.utils import timezone
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
+
+
+@csrf_protect
 def home(request):
     return render(request, '../templates/plate/home.html')  
+
 
 @csrf_protect
 def signup(request):
@@ -66,26 +72,6 @@ def signup(request):
     return render(request, '../templates/userauth/signup.html', {'form': form})
 
 
-
-#account activation function
-# def activate(request, uidb64, token):
-#     try:
-#         uid = force_str(urlsafe_base64_decode(uidb64))
-#         user = CustomUser.objects.get(pk=uid)
-#     except(TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
-#         user = None
-#     if user is not None and activate_token.check_token(user, token):
-#         user.is_verified = True
-#         user.is_active = True
-#         user.save()
-#         login(request, user, backend='userauth.backends.EmailBackend')
-#         return redirect('/')
-        
-#     else:
-#         return render(request, '../templates/404.html')
-
-
-
 @csrf_protect
 def signin(request):
     form = LoginForm(data=request.POST)
@@ -106,14 +92,12 @@ def signin(request):
 
 
 
-
+@require_http_methods(['POST'])
 def signout(request):
     logout(request)
     return redirect('/')
      
 
-
-#intialization function depending on settings
 @csrf_protect
 def password_reset(request):
     if request.method == 'POST':
@@ -163,6 +147,7 @@ def resetPage(request):
     else:
         form = LoginForm()
     return render(request, 'authentication_app/password_reset/password_reset_form.html')
+
 
 
 @csrf_protect

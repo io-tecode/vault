@@ -26,11 +26,17 @@ SECRET_KEY = 'django-insecure-+tnx+g%-6v$by&e($di_a%t!7+8+nc2i7s1^d5%b&@c47kw06(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', 'vault-io-ec9n.onrender.com']
 
+CSRF_TRUSTED_ORIGINS = ['https://vault-io-ec9n.onrender.com']
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'Lax'
+
+CORS_ALLOW_CREDENTIALS = True
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -58,18 +64,19 @@ AUTHENTICATION_BACKENDS = [
 AUTH_USER_MODEL = 'userauth.CustomUser'
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', 
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    'voting.middleware.Custom404Middleware',
+    'django_browser_reload.middleware.BrowserReloadMiddleware',
 ]
-
 ROOT_URLCONF = 'engine.urls'
 
 TEMPLATES = [

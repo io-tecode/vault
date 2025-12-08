@@ -3,18 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verify Your Email</title>
+    <title>Reset Your Password</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#E01305',
+                            light: '#FE3B15',
+                            dark: '#C01004',
+                        },
+                        secondary: {
+                            DEFAULT: '#FA7305',
+                            light: '#FB8C2C',
+                            dark: '#D96204',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
-    <div>
-        <h1>Please Verify Your Email</h1>
-        <p>Thank you for signing up! To complete your registration, please check your email inbox and click the verification link we've sent to you.</p>
-        <p>To access the link directly, click here:
-            <a href="http://{{ domain }}{% url 'userauth:email_verification' %}">http://{{ domain }}{% url 'userauth:email_verification' %}</a>
-        </p>
-        <p>If you don't see the email in your inbox, please check your spam or junk mail folder.</p>
-        <p>Thanks,</p>
-        <p>The Vault Team</p>
+<body class="bg-gradient-to-br from-gray-50 to-orange-50 min-h-screen flex items-center justify-center px-4 py-12">
+    <div class="max-w-2xl w-full">
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+            <div class="bg-gradient-to-r from-primary to-secondary px-8 py-6 text-center">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-white rounded-full mb-4">
+                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-bold text-white">Reset Your Password</h1>
+            </div>
+            <div class="px-8 py-8 space-y-6">
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                    <div class="flex items-start">
+                        <svg class="w-6 h-6 text-yellow-500 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                        </svg>
+                        <div>
+                            <p class="text-yellow-800 font-medium">Password reset requested</p>
+                            <p class="text-yellow-700 text-sm mt-1">We received a request to reset your password. If you didn't make this request, you can safely ignore this email.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <p class="text-gray-700 text-center">
+                        To reset your password, click the button below. This link will expire in 24 hours for security reasons.
+                    </p>
+                    <div class="text-center">
+                        <a href="http://{{ domain }}{% url 'userauth:password_reset_confirm' uidb64=uid token=token %}" 
+                           class="inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-lg shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-secondary focus:ring-opacity-50 transition-all duration-200 transform hover:scale-105">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+                            </svg>
+                            Reset Password Now
+                        </a>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <p class="text-xs text-gray-600 mb-2">Or copy and paste this link:</p>
+                        <p class="text-xs text-primary break-all font-mono">
+                            http://{{ domain }}{% url 'userauth:password_reset_confirm' uidb64=uid token=token %}
+                        </p>
+                    </div>
+                </div>
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div class="flex items-start">
+                        <svg class="w-6 h-6 text-blue-500 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                        </svg>
+                        <div>
+                            <p class="text-blue-800 font-medium mb-1">Security tip</p>
+                            <p class="text-blue-700 text-sm">
+                                For your security, this password reset link will expire in 24 hours. If you didn't request this reset, please contact our support team immediately.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                    <div class="flex items-start">
+                        <svg class="w-6 h-6 text-red-500 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944zM11 14a1 1 0 11-2 0 1 1 0 012 0zm0-7a1 1 0 10-2 0v3a1 1 0 102 0V7z" clip-rule="evenodd"/>
+                        </svg>
+                        <div>
+                            <p class="text-red-800 font-medium mb-1">Didn't request this?</p>
+                            <p class="text-red-700 text-sm">
+                                If you didn't request a password reset, please ignore this email or <a href="#" class="font-semibold underline">contact support</a> if you have concerns about your account security.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center text-gray-600 pt-4 border-t border-gray-200">
+                    <p class="font-medium">Best regards,</p>
+                    <p class="text-lg font-semibold text-primary">The Vault Team</p>
+                </div>
+            </div>
+            <div class="bg-gray-50 px-8 py-6 border-t border-gray-100">
+                <div class="text-center text-xs text-gray-500">
+                    <p class="mb-2">Need help? <a href="#" class="text-primary hover:text-primary-light font-semibold">Contact Support</a></p>
+                    <p>© {% now "Y" %} The Vault. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-6 text-center">
+            <p class="text-sm text-gray-600">
+                This is an automated message. Please do not reply to this email.
+            </p>
+        </div>
     </div>
 </body>
 </html>

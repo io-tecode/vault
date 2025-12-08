@@ -1,10 +1,110 @@
 {% extends "base.html" %}
 
+{% block head %}
+    <title>Sign Up</title>
+{% endblock %}
+
 {% block content %}
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Sign Up</button>
-    <p>Have an account? <a href="{% url 'userauth:login' %}">Log In</a></p>
-</form>
+<div class="min-h-screen flex items-center justify-center px-4 py-12">
+    <div class="max-w-md w-full">
+        <div class="bg-[#93BFEF] bg-opacity-30 rounded-2xl shadow-xl overflow-hidden backdrop-blur-sm">
+            <div class="bg-[#1156B0] px-8 py-6 text-center">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-[#E9F5FF] rounded-full mb-4 shadow-lg">
+                    <svg class="w-8 h-8 text-[#1156B0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-[#E9F5FF]">Create Your Account</h2>
+                <p class="text-[#E9F5FF] mt-2">Join us today and get started</p>
+            </div>
+            <div class="px-8 py-8">
+                {% if form.errors %}
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                        <div class="flex items-start">
+                            <svg class="w-5 h-5 text-red-500 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                            </svg>
+                            <p class="text-sm text-red-800">Please correct the errors below.</p>
+                        </div>
+                    </div>
+                {% endif %}
+                <form method="post" class="space-y-6">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div>
+                            <label for="{{ field.id_for_label }}" class="block text-sm font-semibold text-[#1F1F1F] mb-2">
+                                {{ field.label }}
+                                {% if field.field.required %}
+                                    <span class="text-[#1156B0]">*</span>
+                                {% endif %}
+                            </label>
+                            <input type="{{ field.field.widget.input_type|default:'text' }}" 
+                                   name="{{ field.name }}" 
+                                   id="{{ field.id_for_label }}"
+                                   value="{{ field.value|default:'' }}"
+                                   {% if field.field.required %}required{% endif %}
+                                   class="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1156B0] focus:border-transparent transition-all duration-200 bg-[#E9F5FF]"
+                                   placeholder="{{ field.label }}">
+                            {% if field.help_text %}
+                                <p class="mt-2 text-sm text-gray-500">{{ field.help_text }}</p>
+                            {% endif %}
+                            {% if field.errors %}
+                                <div class="mt-2 text-sm text-red-600">
+                                    {% for error in field.errors %}
+                                        <p class="flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                            </svg>
+                                            {{ error }}
+                                        </p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    <div class="pt-2">
+                        <button type="submit" 
+                                class="w-full flex items-center justify-center px-8 py-3 bg-[#1156B0] text-[#E9F5FF] font-semibold rounded-lg shadow-lg hover:shadow-xl hover:bg-[#93BFEF] focus:outline-none focus:ring-4 focus:ring-[#1156B0] focus:ring-opacity-50 transition-all duration-200 transform hover:scale-105">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                            </svg>
+                            Sign Up
+                        </button>
+                    </div>
+                </form>
+                <div class="mt-6 text-center">
+                    <p class="text-[#1F1F1F]">
+                        Have an account? 
+                        <a href="{% url 'userauth:login' %}" class="text-[#1156B0] hover:text-[#93BFEF] font-semibold transition-colors duration-200">
+                            Log In
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="mt-6 text-center text-sm text-[#1F1F1F] bg-[#93BFEF] bg-opacity-30 rounded-lg shadow-md py-3 px-4 backdrop-blur-sm">
+            <p>By signing up, you agree to our <a href="#" class="text-[#1156B0] hover:text-[#93BFEF] font-medium">Terms of Service</a> and <a href="#" class="text-[#1156B0] hover:text-[#93BFEF] font-medium">Privacy Policy</a></p>
+        </div>
+    </div>
+</div>
+
+<style>
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="password"] {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        transition: all 0.2s;
+        background-color: #E9F5FF;
+    }
+    
+    form input:focus {
+        outline: none;
+        ring: 2px;
+        ring-color: #1156B0;
+        border-color: transparent;
+    }
+</style>
 {% endblock %}

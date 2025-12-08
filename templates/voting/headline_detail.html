@@ -1,30 +1,70 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<a href="{% url 'voting:x6sad_dashboard' %}">
-    previous page
-</a>
-    <h1>{{ headline.title }}</h1>
-    <h2>" {{ headline.subtitle }} "</h2>
-    <a href="{% url 'voting:generate_shareable_link' headline_id=headline.id %}">
-        Generate Shareable Link
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <a href="{% url 'voting:x6sad_dashboard' %}" 
+       class="inline-flex items-center text-primary hover:text-primary-light font-medium mb-6 transition-colors duration-200">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Previous Page
     </a>
-  <h3>Add Votee</h3>
-  {% if votee_details %}
-    <ul>
-        {% for votee in votee_details %}
-        <li>
-            <a href="{% url 'voting:votee_detail' votee.id %}">{{ votee.Name }}</a> :
-            {{ votee.sub_category }}
-        </li>
-        {% endfor %}
-    </ul>
-    <p>Want to create a new Votee Detail?
-    <a href="{% url 'voting:pollinfo_create' %}?headline_id={{ headline.id }}" >Add New Votee Detail</a></p>
+    <div class="bg-white flex flex-col sm:flex-row sm:items-center sm:justify-between rounded-lg p-6 mb-8">
+    <div class="bg-white rounded-lg p-6 mb-6">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">{{ headline.title }}</h1>
+        <h2 class="text-xl text-gray-600 italic">" {{ headline.subtitle }} "</h2>
+    </div>
+    <div class="mb-8">
+        <a href="{% url 'voting:generate_shareable_link' headline_id=headline.id %}" 
+           class="inline-flex items-center justify-center px-6 py-3 bg-[#93BFEF] bg-opacity-30 backdrop-blur-sm text-[#1156B0] font-semibold text-base rounded-lg hover:bg-opacity-50 focus:outline-none focus:ring-4 focus:ring-[#1156B0] focus:ring-opacity-30 transition-all duration-200 shadow-md hover:shadow-lg w-full sm:w-auto">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+            </svg>
+            Generate Shareable Link
+        </a>
+    </div>
+    </div>
+    <h3 class="text-2xl font-semibold text-gray-700 mb-6">Add Votee</h3>
+    {% if votee_details %}
+        <div class="bg-white rounded-lg shadow-sm border border-gray-100 mb-6 overflow-hidden">
+            <ul class="divide-y divide-gray-100">
+                {% for votee in votee_details %}
+                    <li class="hover:bg-gray-50 transition-colors duration-150">
+                        <div class="p-5">
+                            <a href="{% url 'voting:votee_detail' votee.id %}" 
+                               class="text-lg font-semibold text-primary hover:text-primary-light transition-colors duration-200">
+                                {{ votee.Name }}
+                            </a>
+                            <span class="text-gray-600 ml-2 text-base">· {{ votee.sub_category }}</span>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="bg-gradient-to-r from-orange-50 to-red-50 rounded-lg p-6 border border-orange-100">
+            <p class="text-gray-700 text-base mb-3 sm:mb-0 sm:inline-block">
+                Want to create a new Votee Detail?
+            </p>
+            <a href="{% url 'voting:pollinfo_create' %}?headline_id={{ headline.id }}" 
+               class="inline-flex items-center justify-center px-6 py-3 bg-[#93BFEF] bg-opacity-30 backdrop-blur-sm text-[#1156B0] font-semibold text-base rounded-lg hover:bg-opacity-50 focus:outline-none focus:ring-4 focus:ring-[#1156B0] focus:ring-opacity-30 transition-all duration-200 shadow-md hover:shadow-lg w-full sm:w-auto">
+                Add New Votee Detail
+            </a>
+        </div>
     {% else %}
-    <p>Ready to create a new Votee Detail?
-    <a href="{% url 'voting:pollinfo_create' %}?headline_id={{ headline.id }}" class="button">
-    Let's Start
-    </a>
+        <div class="bg-gradient-to-br from-orange-50 to-red-50 border-2 border-dashed border-secondary rounded-xl p-12 sm:p-16 text-center">
+            <div class="max-w-md mx-auto">
+                <svg class="w-16 h-16 mx-auto mb-4 text-secondary opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                </svg>
+                <h4 class="text-2xl font-semibold text-gray-800 mb-3">No Votees Yet</h4>
+                <p class="inline-flex items-center justify-center px-6 py-3 bg-[#93BFEF] bg-opacity-30 backdrop-blur-sm text-[#1156B0] font-semibold text-base rounded-lg hover:bg-opacity-50 focus:outline-none focus:ring-4 focus:ring-[#1156B0] focus:ring-opacity-30 transition-all duration-200 shadow-md hover:shadow-lg w-full sm:w-auto">
+                    Ready to create a new Votee Detail?
+                </p>
+                <a href="{% url 'voting:pollinfo_create' %}?headline_id={{ headline.id %}" class="inline-flex items-center justify-center px-6 py-3 bg-[#93BFEF] bg-opacity-30 backdrop-blur-sm text-[#1156B0] font-semibold text-base rounded-lg hover:bg-opacity-50 focus:outline-none focus:ring-4 focus:ring-[#1156B0] focus:ring-opacity-30 transition-all duration-200 shadow-md hover:shadow-lg w-full sm:w-auto">
+                    Let's Start
+                </a>
+            </div>
+        </div>
     {% endif %}
+</div>
 {% endblock %}

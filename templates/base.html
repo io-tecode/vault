@@ -2,22 +2,41 @@
 <html lang="en">
 <head>
     {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#1156B0',
+                            light: '#93BFEF',
+                            dark: '#0D4489',
+                        },
+                        secondary: {
+                            DEFAULT: '#93BFEF',
+                            light: '#B8D9F7',
+                            dark: '#6BA5E8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="stylesheet" href="{% static 'css/forms.css' %}">
     {% load django_browser_reload %}
     {% load i18n %}
     {% block head %}
     {% endblock %}
 </head>
-<body style="font-family:'Noto Sans', 'DM Sans', sans-serif;" >
-    <div class="container mx-auto px-4">
+<body class="font-sans antialiased">
     {% block content %}
-
     {% endblock %}
     {% django_browser_reload_script %}
-    </div>
 </body>
 </html>
