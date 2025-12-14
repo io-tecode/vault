@@ -13,7 +13,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*', 'vault-io-ec9n.onrender.com']
 
-CSRF_TRUSTED_ORIGINS = ['https://vault-io-ec9n.onrender.com']
+CSRF_TRUSTED_ORIGINS = ['vault-production-eb8c.up.railway.app']
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
