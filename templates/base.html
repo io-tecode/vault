@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    'lime-green': {
+                        50: '#eefce9',
+                        100: '#ddf8d3',
+                        200: '#bcf1a7',
+                        300: '#9aea7b',
+                        400: '#79e34f',
+                        500: '#57dd22',
+                        600: '#46b01c',
+                        700: '#348415',
+                        800: '#23580e',
+                        900: '#112c07',
+                        950: '#0c1f05',
+                    },
+                    primary: {
+                        DEFAULT: '#57dd22',
+                        light: '#9aea7b',
+                        dark: '#348415',
+                    },
+                    secondary: {
+                        DEFAULT: '#79e34f',
+                        light: '#bcf1a7',
+                        dark: '#46b01c',
+                    }
+                }
+            }
+        }
+    }
+    </script>
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+    {% load django_browser_reload %}
+    {% load i18n %}
+</head>
+<body class="font-sans antialiased">
+    {% block content %}
+    {% endblock %}
+    {% django_browser_reload_script %}
+</body>
+</html>

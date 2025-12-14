@@ -1,0 +1,434 @@
+/* ========================================
+   FORM INPUT STYLES
+   ======================================== */
+
+/* Text Inputs */
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form input[type="url"],
+form input[type="tel"],
+form input[type="number"],
+form input[type="date"],
+form input[type="datetime-local"],
+form input[type="month"],
+form input[type="week"],
+form input[type="time"],
+form input[type="search"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: all 0.2s;
+    background-color: #eefce9;
+    border: 1px solid #bcf1a7;
+    color: #1f2937;
+}
+
+/* Textarea */
+form textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: all 0.2s;
+    background-color: #eefce9;
+    border: 1px solid #bcf1a7;
+    color: #1f2937;
+    min-height: 120px;
+    resize: vertical;
+    font-family: inherit;
+}
+
+/* Select Dropdown */
+form select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: all 0.2s;
+    background-color: #eefce9;
+    border: 1px solid #bcf1a7;
+    color: #1f2937;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2346b01c' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+}
+
+/* File Input */
+form input[type="file"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: all 0.2s;
+    background-color: #eefce9;
+    border: 1px solid #bcf1a7;
+    color: #1f2937;
+    cursor: pointer;
+}
+
+form input[type="file"]::file-selector-button {
+    margin-right: 1rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    background-color: #46b01c;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+form input[type="file"]::file-selector-button:hover {
+    background-color: #348415;
+}
+
+/* ========================================
+   FOCUS STATES
+   ======================================== */
+
+form input:focus,
+form textarea:focus,
+form select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #57dd22;
+    border-color: transparent;
+}
+
+/* ========================================
+   HOVER STATES
+   ======================================== */
+
+form input:hover,
+form textarea:hover,
+form select:hover {
+    border-color: #9aea7b;
+}
+
+/* ========================================
+   ERROR STATES
+   ======================================== */
+
+form input.error,
+form textarea.error,
+form select.error,
+form input:invalid,
+form textarea:invalid,
+form select:invalid {
+    border-color: #ef4444;
+    background-color: #fef2f2;
+}
+
+form input.error:focus,
+form textarea.error:focus,
+form select.error:focus {
+    box-shadow: 0 0 0 2px #ef4444;
+}
+
+/* ========================================
+   DISABLED STATES
+   ======================================== */
+
+form input:disabled,
+form textarea:disabled,
+form select:disabled {
+    background-color: #f3f4f6;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* ========================================
+   CHECKBOX & RADIO STYLES
+   ======================================== */
+
+form input[type="checkbox"],
+form input[type="radio"] {
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 1px solid #bcf1a7;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+form input[type="checkbox"]:checked,
+form input[type="radio"]:checked {
+    background-color: #46b01c;
+    border-color: #46b01c;
+}
+
+form input[type="checkbox"]:focus,
+form input[type="radio"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #57dd22;
+}
+
+form input[type="checkbox"]:hover,
+form input[type="radio"]:hover {
+    border-color: #57dd22;
+}
+
+/* ========================================
+   LABEL STYLES
+   ======================================== */
+
+form label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+/* Required asterisk */
+form label .required,
+form label span.text-lime-green-600 {
+    color: #46b01c;
+    margin-left: 0.25rem;
+}
+
+/* ========================================
+   HELP TEXT
+   ======================================== */
+
+form .help-text,
+form p.text-sm.text-gray-500 {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-top: 0.5rem;
+}
+
+/* ========================================
+   ERROR MESSAGES
+   ======================================== */
+
+form .error-message,
+form .errorlist {
+    color: #dc2626;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    list-style: none;
+    padding: 0;
+}
+
+form .errorlist li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.25rem;
+}
+
+/* ========================================
+   BUTTON STYLES
+   ======================================== */
+
+form button[type="submit"],
+form input[type="submit"],
+form .submit-button {
+    width: 100%;
+    padding: 0.75rem 2rem;
+    background: linear-gradient(to right, #46b01c, #57dd22);
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+form button[type="submit"]:hover,
+form input[type="submit"]:hover,
+form .submit-button:hover {
+    background: linear-gradient(to right, #348415, #46b01c);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    transform: scale(1.02);
+}
+
+form button[type="submit"]:focus,
+form input[type="submit"]:focus,
+form .submit-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(87, 221, 34, 0.5);
+}
+
+form button[type="submit"]:disabled,
+form input[type="submit"]:disabled,
+form .submit-button:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none;
+}
+
+/* ========================================
+   FORM GROUPS & SPACING
+   ======================================== */
+
+form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+form .form-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+form .form-row > * {
+    flex: 1;
+    min-width: 200px;
+}
+
+/* ========================================
+   PLACEHOLDER STYLES
+   ======================================== */
+
+form input::placeholder,
+form textarea::placeholder {
+    color: #9ca3af;
+    opacity: 0.7;
+}
+
+form input:focus::placeholder,
+form textarea:focus::placeholder {
+    opacity: 0.5;
+}
+
+/* ========================================
+   DJANGO FORM SPECIFIC STYLES
+   ======================================== */
+
+/* Django errorlist styling */
+.errorlist {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+    color: #dc2626;
+    font-size: 0.875rem;
+}
+
+.errorlist li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.25rem;
+}
+
+/* Django help text */
+.helptext {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-top: 0.5rem;
+    display: block;
+}
+
+/* Django form as_p styles */
+form p {
+    margin-bottom: 1.5rem;
+}
+
+/* ========================================
+   VALIDATION FEEDBACK
+   ======================================== */
+
+.is-valid {
+    border-color: #10b981 !important;
+    background-color: #f0fdf4 !important;
+}
+
+.is-valid:focus {
+    box-shadow: 0 0 0 2px #10b981 !important;
+}
+
+.is-invalid {
+    border-color: #ef4444 !important;
+    background-color: #fef2f2 !important;
+}
+
+.is-invalid:focus {
+    box-shadow: 0 0 0 2px #ef4444 !important;
+}
+
+.valid-feedback {
+    color: #10b981;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+.invalid-feedback {
+    color: #ef4444;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+/* ========================================
+   RESPONSIVE ADJUSTMENTS
+   ======================================== */
+
+@media (max-width: 640px) {
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="password"],
+    form textarea,
+    form select {
+        font-size: 16px; /* Prevents iOS zoom on focus */
+    }
+    
+    form .form-row {
+        flex-direction: column;
+    }
+    
+    form .form-row > * {
+        width: 100%;
+    }
+}
+
+/* ========================================
+   AUTOFILL STYLES
+   ======================================== */
+
+form input:-webkit-autofill,
+form input:-webkit-autofill:hover,
+form input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px #eefce9 inset;
+    -webkit-text-fill-color: #1f2937;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* ========================================
+   LOADING STATE
+   ======================================== */
+
+form.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+form button[type="submit"].loading::after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    border: 2px solid transparent;
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: button-loading-spinner 1s ease infinite;
+}
+
+@keyframes button-loading-spinner {
+    from {
+        transform: rotate(0turn);
+    }
+    to {
+        transform: rotate(1turn);
+    }
+}
