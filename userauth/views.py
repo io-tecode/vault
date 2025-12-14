@@ -19,8 +19,6 @@ from .models import CustomUser, VertifyUser
 from .forms import UserSignUp, LoginForm, UserSignUp, passwordChangeForm 
 from django.utils import timezone
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-
 
 
 @csrf_protect
@@ -57,13 +55,6 @@ def signup(request):
             mail_subject = 'Activate your account.'
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [user.email]
-            # try:
-            #     send_mail(mail_subject, message, email_from, recipient_list)
-            #     messages.success(request, 'Please check your email to verify your account.')
-            #     return render(request, 'userauth/checkemailmsg.html')
-            # except Exception as e:
-            #     messages.error(request, f'An error occurred while sending the email: {str(e)}')
-            #     return render(request, 'userauth/signup.html', {'form': form})
             try:
                 send_mail(mail_subject, message, email_from, recipient_list)
             except Exception as e:
@@ -97,11 +88,11 @@ def signin(request):
     return render(request, '../templates/userauth/login.html', {'form': form, 'next': next_url})
 
 
-
 @require_http_methods(['POST'])
 def signout(request):
     logout(request)
-    return redirect('/')
+    next = request.POST.get('next')
+    return redirect(next, '/')
      
 
 @csrf_protect
@@ -139,7 +130,6 @@ def password_reset(request):
     return render(request, 'authentication_app/password_reset/password_reset_form.html', {'form': form})
 
 
-
 @csrf_protect
 def resetPage(request):
     if request.method == 'POST':
@@ -155,11 +145,9 @@ def resetPage(request):
     return render(request, 'authentication_app/password_reset/password_reset_form.html')
 
 
-
 @csrf_protect
 def resetPageDone(request):
      return render(request, 'authentication_app/password_reset/password_reset_done.html')
-
 
 
 @csrf_protect
@@ -187,7 +175,6 @@ def reset_password_confirm(request, uidb64, token):
     else:
         return render(request, 'authentication_app/password_reset/404.html')
     
-
 
 @csrf_protect
 def email_verification(request):

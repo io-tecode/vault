@@ -4,6 +4,7 @@ from uuid import uuid5
 from uuid import uuid4
 from voting.models import Headline, Poll_information
 
+
 class Vote(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -18,7 +19,6 @@ class Vote(models.Model):
             models.UniqueConstraint(fields=['ip_address', 'headline', 'poll_info'], condition=models.Q(ip_address__isnull=False), name='unique_ip_vote_per_poll'),
         ]
     
-
     def __str__(self):
         voter = self.user.username if self.user else f"Anonymous ({self.ip_address})"
         return f"{voter} voted for {self.poll_info.Name}"

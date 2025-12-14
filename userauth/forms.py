@@ -16,7 +16,6 @@ class UserSignUp(forms.ModelForm):
         validator.validate(password)
         return password
     
-    # account verification
     def save(self, commit=True):
         user = super(UserSignUp, self).save(commit=False)
         user.set_password(self.cleaned_data['password'])

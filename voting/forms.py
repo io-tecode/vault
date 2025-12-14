@@ -9,7 +9,6 @@ class HeadlineForm(forms.ModelForm):
         exclude = ['creator', 'updated_date']
         
 
-
 class PollInformationForm(forms.ModelForm):
     class Meta:
         model = Poll_information
@@ -20,16 +19,3 @@ class PollForm(forms.ModelForm):
     class Meta:
         model = Poll
         fields = ['headline', 'poll_info']
-
-
-# class OptionForm(forms.ModelForm):
-#     class Meta:
-#         model = Option
-#         fields = ['poll', 'opttext']
-
-
-# class VoteForm(forms.ModelForm):
-#     class Meta:
-#         model = Vote
-#         fields = ['user', 'option', 'poll']
-

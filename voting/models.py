@@ -24,7 +24,6 @@ class Headline(models.Model):
     def process_image(self, image_field, desired_size, format='PNG', quality=90):
         if not image_field:
             return  HTTPResponse(status=204)
-
         img = Image.open(image_field)
         img.thumbnail(desired_size)
         width, height = img.size
@@ -33,13 +32,11 @@ class Headline(models.Model):
         right = (width + desired_size[0]) / 2
         bottom = (height + desired_size[1]) / 2
         img = img.crop((left, top, right, bottom))
-
         img_output = BytesIO()
         img = img.convert("RGB")
         img.save(img_output, format=format, quality=quality)
         img_output.seek(0)
         extension = f"{image_field.name.split('.')[0]}_cropped.{format.lower()}"
-
         processed_image = InMemoryUploadedFile(
             img_output, 'ImageField', extension, f'image/{format.lower()}',
             sys.getsizeof(img_output), None
@@ -52,9 +49,7 @@ class Headline(models.Model):
 
         if hasattr(self, 'logo') and self.logo:
             self.logo = self.process_image(self.logo, (200, 100))
-
         super().save(*args, **kwargs)
-
 
 
 class Poll_information(models.Model):
@@ -76,5 +71,3 @@ class Poll(models.Model):
     poll_info = models.ForeignKey(Poll_information, on_delete=models.CASCADE)
     pub_date = models.DateField(auto_created=True)
     updated_date = models.DateField(auto_now_add=True)
-
-

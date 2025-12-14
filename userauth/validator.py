@@ -32,6 +32,3 @@ class AccountActivationTokenGenerator(PasswordResetTokenGenerator):
                 str(user.is_active))
     
 activate_token = AccountActivationTokenGenerator()
-
-
-# --- IGNORE ---

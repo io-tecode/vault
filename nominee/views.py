@@ -9,7 +9,6 @@ from .models import Headline, Poll_information, Vote
 from django.contrib.auth.decorators import login_required
 
 
-
 def get_client_ip(request):
     """Get the client's IP address from the request."""
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -18,7 +17,6 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
-
 
 
 def nominee_view(request, headline_id):
@@ -58,11 +56,9 @@ def nominee_view(request, headline_id):
     return render(request, 'nominee/voting_centre.html', {'headline': headline, 'grouped_nominees': grouped_nominees})
 
 
-
 @login_required
 def vote_success(request):
     return render(request, 'nominee/vote_success.html')
-
 
 
 @login_required
