@@ -11,7 +11,7 @@ SECRET_KEY = 'django-insecure-+tnx+g%-6v$by&e($di_a%t!7+8+nc2i7s1^d5%b&@c47kw06(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', 'vault-io-ec9n.onrender.com']
+ALLOWED_HOSTS = ['*', 'vault-production-eb8c.up.railway.app']
 
 CSRF_TRUSTED_ORIGINS = ['https://vault-production-eb8c.up.railway.app']
 
@@ -146,6 +146,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
-EMAIL_PORT = 465
+EMAIL_PORT = (465, 587)
 EMAIL_HOST_USER = 'sngodson@gmail.com'
 EMAIL_HOST_PASSWORD = 'tcqcnrvninscmoxw'
+if not DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
