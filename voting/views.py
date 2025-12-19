@@ -7,6 +7,7 @@ import qrcode
 from io import BytesIO
 from base64 import b64encode
 from django.urls import reverse
+from django.contrib import messages
 
 
 @login_required
@@ -38,6 +39,17 @@ def headline_detail(request, pk):
 
 
 @login_required
+def headline_delete_simple(request, pk):
+    if request.method == 'POST':
+        headline = get_object_or_404(Headline, pk=pk)
+        title = headline.title
+        headline.delete()
+        messages.success(request, f'"{title}" deleted successfully.')
+        return redirect('voting:x6sad_dashboard')
+    return redirect('voting:x6sad_dashboard')
+
+
+@login_required
 def poll_info_view(request):
     headline_id = request.GET.get('headline_id')
     headline = get_object_or_404(Headline, pk=headline_id)
@@ -51,6 +63,18 @@ def poll_info_view(request):
     else:
         form = PollInformationForm()
     return render(request, '../templates/voting/pollinfo_form.html', {'form': form, 'headline_id': headline_id})
+
+
+@login_required
+def poll_info_delete(request, id):
+    if request.method == 'POST':
+        poll_info = get_object_or_404(Poll_information, id=id)
+        headline_id = poll_info.headline.id
+        name = poll_info.Name
+        poll_info.delete()
+        messages.success(request, f'"{name}" deleted successfully.')
+        return redirect('voting:headline_detail', pk=headline_id)
+    return redirect('voting:x6sad_dashboard')
 
 
 @login_required

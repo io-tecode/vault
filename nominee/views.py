@@ -47,6 +47,7 @@ def nominee_view(request, headline_id):
                         nominee = get_object_or_404(Poll_information, pk=option_id, headline=headline)
                         Vote.objects.create(ip_address=ip_address, user= None, poll_info=nominee, headline=headline)
             messages.success(request, 'Your vote has been recorded successfully!')
+            request.session['last_voted_headline'] = str(headline_id)
             return redirect('nominee:vote_success')
         except Exception as e:
             messages.error(request, f'An error occurred while recording your vote: {e}')
@@ -58,11 +59,16 @@ def nominee_view(request, headline_id):
 
 @login_required
 def vote_success(request):
-    return render(request, 'nominee/vote_success.html')
+    headline_id = request.session.get('last_voted_headline')
+    if headline_id:
+        headline = get_object_or_404(Headline, id=headline_id)
+        return render(request, 'nominee/vote_success.html', {'headline': headline})
+    else:
+        return redirect('nominee:vote')
 
 
 @login_required
-def nominee_analysis(request, headline_id):
+def nominee_logs(request, headline_id):
     headline = get_object_or_404(Headline, id=headline_id)
     nominees = Poll_information.objects.filter(headline=headline).only('id', 'sub_category', 'Name', 'headline').order_by('sub_category')
     votes_count = Vote.objects.filter(headline=headline).values('poll_info').annotate(vote_count=models.Count('id'))
@@ -70,5 +76,5 @@ def nominee_analysis(request, headline_id):
     for nominee in nominees:
         nominee.vote_count = votes_dict.get(nominee.id, 0)
     grouped_nominees = [(sub_category, list(group)) for sub_category, group in groupby(nominees, key=lambda x: x.sub_category)]
-    return render(request, 'nominee/nominee_analysis.html', {'headline': headline, 'grouped_nominees': grouped_nominees})
+    return render(request, 'nominee/nominee_logs.html', {'headline': headline, 'grouped_nominees': grouped_nominees})
                   

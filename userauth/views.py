@@ -91,8 +91,7 @@ def signin(request):
 @require_http_methods(['POST'])
 def signout(request):
     logout(request)
-    next = request.POST.get('next')
-    return redirect(next, '/')
+    return redirect('/')
      
 
 @csrf_protect
@@ -178,7 +177,6 @@ def reset_password_confirm(request, uidb64, token):
 
 @csrf_protect
 def email_verification(request):
-    print("email_verification view called")
     if request.method == 'POST':
         code = request.POST.get('code')
         print(f"Code received: {code}")
@@ -202,9 +200,9 @@ def email_verification(request):
             user.save()
             login(request, user, backend='userauth.backends.EmailBackend')
             messages.success(request, 'Your account has been successfully verified!')
-            return render(request, 'plate/dashboard.html')
+            return redirect('voting:x6sad_dashboard')
         else:
             messages.info(request, 'Your account is already verified.')
-            return render(request, 'plate/dashboard.html')
-    print("Rendering email_verification.html")
+            return redirect('voting:x6sad_dashboard')
+
     return render(request, 'userauth/email_verification.html')

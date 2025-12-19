@@ -11,4 +11,6 @@ urlpatterns = [
     path('votee/<uuid:id>/', votee_detail, name='votee_detail'),
     path('dashboard/', dashboard_view, name='x6sad_dashboard'),
     path('shareable_link/<uuid:headline_id>/', generate_shareable_link, name='generate_shareable_link'),
+    path('headlines/<uuid:pk>/delete/', headline_delete_simple, name='headline_delete_simple'),
+    path('votee/<uuid:id>/delete/', poll_info_delete, name='poll_info_delete'),
 ]    
