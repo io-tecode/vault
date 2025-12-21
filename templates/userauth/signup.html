@@ -43,7 +43,7 @@
                                    id="{{ field.id_for_label }}"
                                    value="{{ field.value|default:'' }}"
                                    {% if field.field.required %}required{% endif %}
-                                   class="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-green-500 focus:border-transparent transition-all duration-200 bg-lime-green-50 border border-lime-green-200"
+                                   class="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-green-500 focus:border-transparent transition-all duration-200 bg-lime-green-50 border  "
                                    placeholder="{{ field.label }}">
                             {% if field.help_text %}
                                 <p class="mt-2 text-sm text-gray-500">{{ field.help_text }}</p>

@@ -23,7 +23,8 @@ from django.contrib import messages
 
 @csrf_protect
 def home(request):
-    return render(request, '../templates/plate/home.html')  
+    user = CustomUser.objects.all()
+    return render(request, '../templates/plate/home.html',{'user': user})  
 
 
 @csrf_protect
@@ -39,7 +40,9 @@ def signup(request):
             user = CustomUser(email=email, nickname=nickname, last_name=last_name, first_name=first_name)
             user.set_password(password)
             user.is_active = False 
+            user.is_verified = False
             user.save()
+            logout(request)
             verify_user = VertifyUser.objects.create(user=user)
             gen = verify_user.generate_code()
             verify_user.code = gen
@@ -100,7 +103,6 @@ def password_reset(request):
         form = PasswordResetForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data.get('email')
-            # email = form.cleaned_data['email']
             try:
                 user = CustomUser.objects.get(email=email)
                 current_site = get_current_site(request)

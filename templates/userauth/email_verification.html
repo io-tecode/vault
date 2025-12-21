@@ -5,9 +5,9 @@
 {% endblock %}
 
 {% block content %}
-<div class="bg-gradient-to-br from-lime-green-50 to-lime-green-100 min-h-screen flex items-center justify-center px-4 py-12">
+<div class="min-h-screen flex items-center justify-center px-4 py-12">
     <div class="max-w-md w-full">
-        <div class="bg-white rounded-2xl shadow-xl border border-lime-green-200 overflow-hidden">
+        <div class="bg-white rounded-2xl   overflow-hidden">
             <div class="bg-gradient-to-r from-lime-green-600 to-lime-green-500 px-8 py-6 text-center">
                 <div class="inline-flex items-center justify-center w-16 h-16 bg-white rounded-full mb-4 shadow-lg">
                     <svg class="w-8 h-8 text-lime-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -38,7 +38,7 @@
                                 </div>
                             </div>
                         {% else %}
-                            <div class="message-alert mb-6 bg-lime-green-50 border border-lime-green-200 rounded-lg p-4 transition-all duration-500 ease-in-out">
+                            <div class="message-alert mb-6 bg-lime-green-50 border   rounded-lg p-4 transition-all duration-500 ease-in-out">
                                 <div class="flex items-start">
                                     <svg class="w-5 h-5 text-lime-green-600 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
@@ -71,7 +71,7 @@
                     </div>
                 </form>
                 <div class="mt-6 pt-6 border-t border-gray-200">
-                    <div class="bg-lime-green-50 border border-lime-green-200 rounded-lg p-4">
+                    <div class="bg-lime-green-50 border   rounded-lg p-4">
                         <div class="flex items-start">
                             <svg class="w-5 h-5 text-lime-green-600 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
@@ -118,19 +118,16 @@
 </style>
 
 <script>
-    // Auto-hide messages after 10 seconds
     document.addEventListener('DOMContentLoaded', function() {
         const messages = document.querySelectorAll('.message-alert');
         
         messages.forEach(function(message) {
             setTimeout(function() {
                 message.classList.add('fade-out');
-                
-                // Remove element from DOM after animation completes
                 setTimeout(function() {
                     message.remove();
-                }, 500); // Match the transition duration
-            }, 10000); // 10 seconds
+                }, 500);
+            }, 10000);
         });
     });
 </script>

@@ -34,8 +34,8 @@ def headline_view(request):
 @login_required
 def headline_detail(request, pk):
     headline = get_object_or_404(Headline, pk=pk)
-    votee_details = Poll_information.objects.filter(headline_id=headline.id).order_by('headline_id')
-    return render(request, '../templates/voting/headline_detail.html', {'headline': headline, 'votee_details': votee_details})
+    nominee_details = Poll_information.objects.filter(headline_id=headline.id).order_by('headline_id')
+    return render(request, '../templates/voting/headline_detail.html', {'headline': headline, 'nominee_details': nominee_details})
 
 
 @login_required
@@ -78,9 +78,9 @@ def poll_info_delete(request, id):
 
 
 @login_required
-def votee_detail(request, id):
+def nominee_detail(request, id):
     poll_info = get_object_or_404(Poll_information, id=id)
-    return render(request, '../templates/voting/votee_detail.html', {'poll_info': poll_info})
+    return render(request, '../templates/voting/nominee_detail.html', {'poll_info': poll_info})
 
 
 @login_required
@@ -101,3 +101,16 @@ def generate_shareable_link(request, headline_id):
     buffer.seek(0)
     qr_code_image = b64encode(buffer.read()).decode('utf-8')
     return render(request, 'voting/shareable_link.html', {'shareable_link': shareable_link, 'qr_code_image': qr_code_image, 'headline': headline})
+
+
+
+def poll_edit(request, id):
+    poll_info = get_object_or_404(Poll_information, id=id)
+    if request.method == 'POST':
+        form = PollInformationForm(request.POST, request.FILES, instance=poll_info)
+        if form.is_valid():
+            form.save()
+            return redirect('voting:nominee_detail', id=id)
+    else:
+        form = PollInformationForm(instance=poll_info)
+    return render(request, '../templates/voting/poll_edit.html', {'form': form, 'poll_info': poll_info})
