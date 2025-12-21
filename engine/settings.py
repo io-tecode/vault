@@ -11,9 +11,9 @@ SECRET_KEY = 'django-insecure-+tnx+g%-6v$by&e($di_a%t!7+8+nc2i7s1^d5%b&@c47kw06(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', 'vault-production-eb8c.up.railway.app']
+ALLOWED_HOSTS = ['*', 'cehayford.pythonanywhere.com']
 
-CSRF_TRUSTED_ORIGINS = ['https://vault-production-eb8c.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://cehayford.pythonanywhere.com/']
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True

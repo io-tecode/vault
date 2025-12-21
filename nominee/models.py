@@ -5,9 +5,9 @@ from uuid import uuid4
 from voting.models import Headline, Poll_information
 
 
-class Vote(models.Model):
+class vote(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     ip_address = models.GenericIPAddressField(null=True, blank=True)
     poll_info = models.ForeignKey(Poll_information, on_delete=models.CASCADE)
     headline = models.ForeignKey(Headline, on_delete=models.CASCADE)

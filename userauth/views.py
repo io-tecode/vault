@@ -9,7 +9,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.conf import settings
 from django.views.decorators.http import require_http_methods
-from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
+from django.views.decorators.csrf import csrf_protect
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from .validator import activate_token
