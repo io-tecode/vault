@@ -119,10 +119,10 @@ def poll_edit(request, id):
 
 
 @login_required
-def vote_changes(request, headline_id):
+def vote_changes(request, pk):
     if request.method == 'POST':
         try:
-            headline = get_object_or_404(Headline, id=headline_id)
+            headline = get_object_or_404(Headline, pk=pk)
             data = json.loads(request.body)
             new_state = data.get('allow_vote_changes')
             if new_state is not None:

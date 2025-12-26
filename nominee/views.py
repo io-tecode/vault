@@ -80,24 +80,6 @@ def nominee_view(request, headline_id):
 
 
 @csrf_protect
-def already_voted(request):
-    return render(request, 'nominee/already_voted.html')
-
-
-# @csrf_protect
-# def vote_success(request):
-#     headline_id = request.session.get('last_voted_headline')
-#     if headline_id:
-#         headline = get_object_or_404(Headline, id=headline_id)
-#         return render(request, 'nominee/vote_success.html', {'headline': headline})
-#     else:
-#         if not headline_id:
-#             messages.info(request, 'No recent voting activity found.')
-#             return redirect('nominee:vote_success')
-#         else:
-#             return redirect('nominee:vote')
-
-@csrf_protect
 def vote_success(request):
     headline_id = request.session.get('last_voted_headline')
     if headline_id:
