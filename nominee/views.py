@@ -11,7 +11,6 @@ from django.contrib.auth.decorators import login_required
 
 
 def get_client_ip(request):
-    """Get the client's IP address from the request."""
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
@@ -23,6 +22,9 @@ def get_client_ip(request):
 @csrf_protect
 def nominee_view(request, headline_id):
     headline = get_object_or_404(Headline, id=headline_id)
+    if not headline.allow_vote_changes:
+        messages.info(request, 'Vote changes are already disabled for this poll.')
+        return redirect('nominee:vote_success')
     if request.method == 'POST':
         selected_options = []
         for key, value in request.POST.items():
@@ -35,6 +37,11 @@ def nominee_view(request, headline_id):
             with transaction.atomic():
                 if request.user.is_authenticated:
                     existing_votes = vote.objects.filter(user=request.user, headline=headline)
+                    # Check if any existing vote is locked
+                    if existing_votes.filter(is_locked=True).exists():
+                        messages.warning(request, 'Your vote is locked and cannot be changed.')
+                        request.session['last_voted_headline'] = str(headline_id)
+                        return redirect('nominee:vote_success')
                     existing_votes.delete()
                     for option_id in selected_options:
                         nominee = get_object_or_404(Poll_information, pk=option_id, headline=headline)
@@ -42,6 +49,11 @@ def nominee_view(request, headline_id):
                 else:
                     ip_address = get_client_ip(request)
                     existing_votes = vote.objects.filter(ip_address=ip_address, headline=headline)
+                    # Check if any existing vote is locked for device ip address
+                    if existing_votes.filter(is_locked=True).exists():
+                        messages.warning(request, 'Your vote is locked and cannot be changed.')
+                        request.session['last_voted_headline'] = str(headline_id)
+                        return redirect('nominee:vote_success')
                     if existing_votes.exists():
                         messages.warning(request, 'You have already voted from this location. Your previous vote has been updated.')
                     existing_votes.delete()
@@ -54,19 +66,70 @@ def nominee_view(request, headline_id):
         except Exception as e:
             messages.error(request, f'An error occurred while recording your vote: {e}')
             return redirect('nominee:vote', headline_id=headline_id)
+    has_voted, is_vote_locked = False, False
+    if request.user.is_authenticated:
+        user_votes = vote.objects.filter(user=request.user, headline=headline)
+        has_voted, is_vote_locked = user_votes.exists(), user_votes.filter(is_locked=True).exists()
+    else:
+        ip_address = get_client_ip(request)
+        ip_votes = vote.objects.filter(ip_address=ip_address, headline=headline)
+        has_voted, is_vote_locked = ip_votes.exists(), ip_votes.filter(is_locked=True).exists()
     nominees = Poll_information.objects.filter(headline=headline).only('id', 'sub_category', 'Name', 'headline').order_by('sub_category')
     grouped_nominees = [(sub_category, list(group)) for sub_category, group in groupby(nominees, key=lambda x: x.sub_category)]
-    return render(request, 'nominee/voting_centre.html', {'headline': headline, 'grouped_nominees': grouped_nominees})
+    return render(request, 'nominee/voting_centre.html', {'headline': headline, 'grouped_nominees': grouped_nominees, 'has_voted': has_voted, 'is_vote_locked': is_vote_locked})
 
+
+@csrf_protect
+def already_voted(request):
+    return render(request, 'nominee/already_voted.html')
+
+
+# @csrf_protect
+# def vote_success(request):
+#     headline_id = request.session.get('last_voted_headline')
+#     if headline_id:
+#         headline = get_object_or_404(Headline, id=headline_id)
+#         return render(request, 'nominee/vote_success.html', {'headline': headline})
+#     else:
+#         if not headline_id:
+#             messages.info(request, 'No recent voting activity found.')
+#             return redirect('nominee:vote_success')
+#         else:
+#             return redirect('nominee:vote')
 
 @csrf_protect
 def vote_success(request):
     headline_id = request.session.get('last_voted_headline')
     if headline_id:
         headline = get_object_or_404(Headline, id=headline_id)
-        return render(request, 'nominee/vote_success.html', {'headline': headline})
+        vote_locked = False
+        if request.user.is_authenticated:
+            vote_locked = vote.objects.filter(
+                user=request.user, 
+                headline=headline, 
+                is_locked=True
+            ).exists()
+        else:
+            ip_address = get_client_ip(request)
+            vote_locked = vote.objects.filter(
+                ip_address=ip_address, 
+                headline=headline, 
+                is_locked=True
+            ).exists()
+        
+        from django.utils import timezone
+        context = {
+            'headline': headline,
+            'vote_locked': vote_locked,
+            'now': timezone.now()
+        }
+        return render(request, 'nominee/vote_success.html', context)
     else:
-        return redirect('nominee:vote')
+        if not headline_id:
+            messages.info(request, 'No recent voting activity found.')
+            return redirect('nominee:vote_success')
+        else:
+            return redirect('nominee:vote')
 
 
 @csrf_protect

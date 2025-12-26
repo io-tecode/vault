@@ -16,7 +16,7 @@
                 Back to Headline
             </a>
         </div> 
-        <div class="bg-white rounded-2xl overflow-hidden">
+        <div class="bg-white rounded-2xl overflow-hidden shadow-xl">
             <div class="bg-gradient-to-r from-lime-green-600 to-lime-green-500 px-8 py-6">
                 <div class="flex items-center">
                     <div class="inline-flex items-center justify-center w-12 h-12 bg-white rounded-full mr-4 shadow-lg">
@@ -28,7 +28,7 @@
                 </div>
             </div> 
             <div class="px-8 py-8 space-y-6"> 
-                <div class="bg-lime-green-50 border   rounded-lg p-6">
+                <div class="bg-lime-green-50 border rounded-lg p-6">
                     <div class="flex items-start">
                         <svg class="w-6 h-6 text-lime-green-600 mr-3 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
@@ -47,6 +47,45 @@
                         <div>
                             <h3 class="text-sm font-semibold text-gray-600 uppercase tracking-wide mb-1">Associated Headline</h3>
                             <p class="text-lg font-medium text-gray-900">{{ poll_info.headline.title }}</p>
+                        </div>
+                    </div>
+                </div> 
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                    <div class="flex items-start">
+                        <svg class="w-6 h-6 text-blue-600 mr-3 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                        <div class="flex-1">
+                            <h3 class="text-sm font-semibold text-gray-600 uppercase tracking-wide mb-2">Vote Settings</h3>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-lg font-medium text-gray-900">Allow Vote Changes</p>
+                                    <p class="text-sm text-gray-600 mt-1">
+                                        {% if poll_info.headline.allow_vote_changes %}
+                                            Voters can update their votes or lock them individually
+                                        {% else %}
+                                            Voters can only vote once - no changes allowed
+                                        {% endif %}
+                                    </p>
+                                </div>
+                                <div class="ml-4">
+                                    {% if poll_info.headline.allow_vote_changes %}
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                            </svg>
+                                            Enabled
+                                        </span>
+                                    {% else %}
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
+                                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"/>
+                                            </svg>
+                                            Disabled
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div> 

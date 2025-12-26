@@ -2,12 +2,14 @@ from django.shortcuts import get_object_or_404, render, redirect
 from .models import *
 from django.views.generic import *
 from .forms import *
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 import qrcode
 from io import BytesIO
 from base64 import b64encode
 from django.urls import reverse
 from django.contrib import messages
+import json
 
 
 @login_required
@@ -103,7 +105,7 @@ def generate_shareable_link(request, headline_id):
     return render(request, 'voting/shareable_link.html', {'shareable_link': shareable_link, 'qr_code_image': qr_code_image, 'headline': headline})
 
 
-
+@login_required
 def poll_edit(request, id):
     poll_info = get_object_or_404(Poll_information, id=id)
     if request.method == 'POST':
@@ -114,3 +116,19 @@ def poll_edit(request, id):
     else:
         form = PollInformationForm(instance=poll_info)
     return render(request, '../templates/voting/poll_edit.html', {'form': form, 'poll_info': poll_info})
+
+
+@login_required
+def vote_changes(request, headline_id):
+    if request.method == 'POST':
+        try:
+            headline = get_object_or_404(Headline, id=headline_id)
+            data = json.loads(request.body)
+            new_state = data.get('allow_vote_changes')
+            if new_state is not None:
+                headline.allow_vote_changes = new_state
+                headline.save()
+                return JsonResponse({'status': 'success', 'allow_vote_changes': headline.allow_vote_changes})
+            return JsonResponse({'status': 'error', 'message': 'Invalid data'}, status=400)
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)

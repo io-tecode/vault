@@ -12,6 +12,8 @@ class vote(models.Model):
     poll_info = models.ForeignKey(Poll_information, on_delete=models.CASCADE)
     headline = models.ForeignKey(Headline, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    is_locked = models.BooleanField(default=False)
+    locked_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         constraints = [

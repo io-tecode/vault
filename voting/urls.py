@@ -14,4 +14,5 @@ urlpatterns = [
     path('headlines/<uuid:pk>/delete/', headline_delete_simple, name='headline_delete_simple'),
     path('nominee/<uuid:id>/delete/', poll_info_delete, name='poll_info_delete'),
     path('pollinfo/<uuid:id>/edit/', poll_edit, name='poll_edit'),
+    path('vote_changes/<uuid:headline_id>/', vote_changes, name='vote_changes'),
 ]    

@@ -5,8 +5,8 @@ from .models import *
 class HeadlineForm(forms.ModelForm):
     class Meta:
         model = Headline
-        # fields = ['title', 'subtitle', 'logo', 'header_img']
         exclude = ['creator', 'updated_date']
+        widgets = {'allow_vote_changes': forms.CheckboxInput(attrs={'class': 'form-check-input'})}
         
 
 class PollInformationForm(forms.ModelForm):

@@ -15,6 +15,7 @@ class Headline(models.Model):
     logo = models.ImageField(upload_to='logo', name='headline-logo', blank=True, null=True)
     header_img = models.ImageField(upload_to='header_image', name='headline-image', blank=True, null=True)
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    allow_vote_changes = models.BooleanField(default=True)
     creation_date = models.DateField(auto_now_add=True)
     updated_date = models.DateField(auto_now=True)
 

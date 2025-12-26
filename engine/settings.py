@@ -14,7 +14,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['*', 'cehayford.pythonanywhere.com']
 
 CSRF_TRUSTED_ORIGINS = ['https://cehayford.pythonanywhere.com/']
-
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SAMESITE = 'Lax'
