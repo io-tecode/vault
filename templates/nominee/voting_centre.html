@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Vote for {{ headline.title }}</title>
+{% endblock %}
+
+{% block content %}
+    <div class="min-h-screen py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-2xl   p-8 mb-8">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-gradient-to-r from-lime-green-600 to-lime-green-500 rounded-lg flex items-center justify-center shadow-lg">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="ml-5">
+                        <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">
+                            {{ headline.title }}
+                        </h1>
+                        <p class="text-lg text-gray-600 font-medium">
+                            {{ headline.subtitle }}
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-6 bg-lime-green-50 border rounded-lg p-4">
+                    <div class="flex items-start">
+                        <svg class="w-5 h-5 text-lime-green-600 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                        </svg>
+                        <div class="text-sm text-gray-700">
+                            <span class="font-semibold">How to vote:</span> Select one nominee for each position below, then click the Vote button to submit your choices.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+                <div class="bg-white rounded-2xl overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-lime-green-200">
+                            <thead>
+                                <tr class="bg-gradient-to-r from-lime-green-600 to-lime-green-500">
+                                    <th class="px-6 py-4 text-left text-sm font-bold text-white uppercase tracking-wider">
+                                        Position
+                                    </th>
+                                    <th class="px-6 py-4 text-left text-sm font-bold text-white uppercase tracking-wider">
+                                        Nominees
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-lime-green-100">
+                                {% for sub_category, nominees in grouped_nominees %}
+                                    <tr class="hover:bg-lime-green-50 transition-colors duration-150">
+                                        <td class="px-6 py-5 align-top bg-lime-green-50 bg-opacity-50">
+                                            <div class="flex items-center">
+                                                <div class="w-2 h-2 bg-lime-green-600 rounded-full mr-3"></div>
+                                                <span class="text-base font-semibold text-gray-800">
+                                                    {{ sub_category }}
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-5">
+                                            <div class="space-y-3">
+                                                {% for option in nominees %}
+                                                    <div class="flex items-center group">
+                                                        <input type="radio" 
+                                                               id="option_{{ option.id }}" 
+                                                               name="option_{{ sub_category }}" 
+                                                               value="{{ option.id }}" 
+                                                               required
+                                                               class="w-5 h-5 text-lime-green-600 bg-white border-lime-green-300 focus:ring-lime-green-500 focus:ring-2 cursor-pointer transition-all duration-200">
+                                                        <label for="option_{{ option.id }}" 
+                                                               class="ml-3 text-base font-medium text-gray-700 cursor-pointer group-hover:text-lime-green-700 transition-colors duration-200">
+                                                            {{ option.Name }}
+                                                        </label>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center space-y-4 pt-4 pb-8">
+                    <button type="submit" 
+                            class="group relative inline-flex items-center justify-center px-12 py-4 bg-gradient-to-r from-lime-green-600 to-lime-green-500 text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-xl hover:from-lime-green-700 hover:to-lime-green-600 focus:outline-none focus:ring-4 focus:ring-lime-green-500 focus:ring-opacity-50 transition-all duration-200 transform hover:scale-105">
+                        <svg class="w-6 h-6 mr-2 group-hover:animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        Submit Your Vote
+                    </button>
+                    <p class="text-sm text-gray-600">
+                        Make sure you've selected a nominee for each position
+                    </p>
+                </div>
+            </form>
+            <div class="bg-white border rounded-xl shadow-md p-6 mt-6">
+                <div class="flex items-start">
+                    <svg class="w-6 h-6 text-lime-green-600 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                    <div class="text-sm text-gray-700">
+                        <span class="font-semibold">Your vote is secure:</span> All votes are encrypted and anonymous. Once submitted, your selections cannot be changed.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        input[type="radio"]:checked {
+            background-color: #46b01c;
+            background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e");
+        }
+        input[type="radio"]:checked:hover {
+            background-color: #57dd22;
+        }
+        input[type="radio"]:checked:focus {
+            background-color: #46b01c;
+        }
+    </style>
+{% endblock %}

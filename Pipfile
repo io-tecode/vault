@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+whitenoise = "*"
+django = "*"
+pillow = "*"
+django-browser-reload = "*"
+django-cors-headers = "*"
+django-defender = "*"
+django-allauth = "*"
+pyjwt = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.12"

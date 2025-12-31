@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Poll Information Form</title>
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-2xl mx-auto">
+        <div class="bg-white rounded-2xl overflow-hidden">
+            <div class="bg-gradient-to-r from-lime-green-600 to-lime-green-500 px-8 py-6">
+                <div class="flex items-center">
+                    <div class="inline-flex items-center justify-center w-12 h-12 bg-white rounded-full mr-4 shadow-lg">
+                        <svg class="w-6 h-6 text-lime-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+                        </svg>
+                    </div>
+                    <h1 class="text-2xl font-bold text-white">Poll Information Form</h1>
+                </div>
+            </div>
+            <div class="px-8 py-8">
+                {% if form.errors %}
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                        <div class="flex items-start">
+                            <svg class="w-5 h-5 text-red-500 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                            </svg>
+                            <p class="text-sm text-red-800">Please correct the errors below.</p>
+                        </div>
+                    </div>
+                {% endif %} 
+                <form method="post" enctype="application/x-www-form-urlencoded" class="space-y-6">
+                    {% csrf_token %} 
+                    {% for field in form %}
+                        <div>
+                            <label for="{{ field.id_for_label }}" class="block text-sm font-semibold text-gray-800 mb-2">
+                                {{ field.label }}
+                                {% if field.field.required %}
+                                    <span class="text-lime-green-600">*</span>
+                                {% endif %}
+                            </label>
+                            
+                            {% if field.field.widget.input_type == 'textarea' %}
+                                <textarea 
+                                    name="{{ field.name }}" 
+                                    id="{{ field.id_for_label }}"
+                                    {% if field.field.required %}required{% endif %}
+                                    class="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-green-500 focus:border-transparent transition-all duration-200 bg-lime-green-50 border   min-h-[120px]"
+                                    placeholder="{{ field.label }}">{{ field.value|default:'' }}</textarea>
+                            {% elif field.field.widget.input_type == 'select' %}
+                                <select 
+                                    name="{{ field.name }}" 
+                                    id="{{ field.id_for_label }}"
+                                    {% if field.field.required %}required{% endif %}
+                                    class="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-green-500 focus:border-transparent transition-all duration-200 bg-lime-green-50 border  ">
+                                    {% for value, label in field.field.choices %}
+                                        <option value="{{ value }}" {% if field.value == value %}selected{% endif %}>{{ label }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% elif field.field.widget.input_type == 'checkbox' %}
+                                <div class="flex items-center">
+                                    <input 
+                                        type="checkbox" 
+                                        name="{{ field.name }}" 
+                                        id="{{ field.id_for_label }}"
+                                        {% if field.value %}checked{% endif %}
+                                        class="w-5 h-5 text-lime-green-600 border-lime-green-300 rounded focus:ring-2 focus:ring-lime-green-500">
+                                    <label for="{{ field.id_for_label }}" class="ml-3 text-sm text-gray-700">
+                                        {{ field.help_text|default:field.label }}
+                                    </label>
+                                </div>
+                            {% elif field.field.widget.input_type == 'radio' %}
+                                <div class="space-y-2">
+                                    {% for value, label in field.field.choices %}
+                                        <div class="flex items-center">
+                                            <input 
+                                                type="radio" 
+                                                name="{{ field.name }}" 
+                                                id="{{ field.id_for_label }}_{{ forloop.counter }}"
+                                                value="{{ value }}"
+                                                {% if field.value == value %}checked{% endif %}
+                                                class="w-4 h-4 text-lime-green-600 border-lime-green-300 focus:ring-2 focus:ring-lime-green-500">
+                                            <label for="{{ field.id_for_label }}_{{ forloop.counter }}" class="ml-3 text-sm text-gray-700">
+                                                {{ label }}
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <input 
+                                    type="{{ field.field.widget.input_type|default:'text' }}" 
+                                    name="{{ field.name }}" 
+                                    id="{{ field.id_for_label }}"
+                                    value="{{ field.value|default:'' }}"
+                                    {% if field.field.required %}required{% endif %}
+                                    class="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-green-500 focus:border-transparent transition-all duration-200 bg-lime-green-50 border  "
+                                    placeholder="{{ field.label }}">
+                            {% endif %}
+                            
+                            {% if field.help_text and field.field.widget.input_type != 'checkbox' %}
+                                <p class="mt-2 text-sm text-gray-500">{{ field.help_text }}</p>
+                            {% endif %} 
+                            {% if field.errors %}
+                                <div class="mt-2 text-sm text-red-600">
+                                    {% for error in field.errors %}
+                                        <p class="flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                            </svg>
+                                            {{ error }}
+                                        </p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %} 
+                    <div class="pt-6 border-t border-gray-200">
+                        <button 
+                            type="submit"
+                            class="w-full inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-lime-green-600 to-lime-green-500 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:from-lime-green-700 hover:to-lime-green-600 focus:outline-none focus:ring-4 focus:ring-lime-green-500 focus:ring-opacity-50 transition-all duration-200 transform hover:scale-105">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            Submit Poll Information
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div> 
+        <div class="mt-6 bg-lime-green-50 border   rounded-lg p-4">
+            <div class="flex items-start">
+                <svg class="w-5 h-5 text-lime-green-600 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                </svg>
+                <div>
+                    <p class="text-sm font-medium text-lime-green-800 mb-1">Need help with this form?</p>
+                    <p class="text-xs text-lime-green-700">
+                        All fields marked with <span class="text-lime-green-600 font-semibold">*</span> are required. Make sure to fill them out completely.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

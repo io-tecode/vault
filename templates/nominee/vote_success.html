@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>{% if vote_locked %}Already Voted{% else %}Vote Successfully Submitted{% endif %}</title>
+{% endblock %}
+
+{% block content %}
+    <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full">
+            {% if vote_locked %}
+                <div class="bg-white rounded-2xl p-8 text-center">
+                    <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full mb-6 shadow-lg">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                    </div>
+                    <h1 class="text-3xl font-bold text-gray-800 mb-4">Already Voted</h1>
+                    <p class="text-lg text-gray-600 mb-8">You have already cast your vote for this election.</p>
+                    
+                    <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-8">
+                        <div class="flex items-start text-sm text-gray-700">
+                            <svg class="w-5 h-5 text-amber-600 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <div class="text-left">
+                                <p class="font-medium mb-1">One Vote Per Person</p>
+                                <p class="text-gray-600">To ensure fairness, each person can only vote once per election.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <a href="{% url 'nominee:analyze_votes' headline.id %}" 
+                           class="w-full inline-flex items-center justify-center px-6 py-3 bg-lime-green-600 hover:bg-lime-green-700 text-white font-semibold rounded-lg focus:outline-none focus:ring-4 focus:ring-lime-green-500 focus:ring-opacity-50 transition-all duration-200 shadow-md">
+                            View Voting Results
+                        </a>
+                        <a href="{% url 'home' %}" 
+                           class="w-full inline-flex items-center justify-center px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-lg focus:outline-none focus:ring-4 focus:ring-gray-300 focus:ring-opacity-50 transition-all duration-200">
+                            Return to Home
+                        </a>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t">
+                        <p class="text-sm text-gray-600 mb-2">Thank you for participating!</p>
+                        <p class="text-xs text-gray-500">
+                            Please come back for the next voting period to cast your vote again.
+                        </p>
+                    </div>
+                </div>
+            {% else %}
+                <div class="bg-white rounded-2xl p-8 text-center">
+                    <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-lime-green-600 to-lime-green-500 rounded-full mb-6 shadow-lg animate-bounce">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    <h1 class="text-3xl font-bold text-gray-800 mb-4">Thank You!</h1>
+                    <p class="text-lg text-gray-600 mb-8">Your vote has been successfully recorded.</p>
+                    <div class="bg-lime-green-50 border border-lime-green-200 rounded-lg p-4 mb-8">
+                        <div class="flex items-center justify-center text-sm text-gray-700">
+                            <svg class="w-5 h-5 text-lime-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                            </svg>
+                            <span class="font-medium">Your vote is secure and anonymous</span>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <a href="{% url 'nominee:analyze_votes' headline.id %}" 
+                           class="w-full inline-flex items-center justify-center px-6 py-3 bg-lime-green-600 hover:bg-lime-green-700 text-white font-semibold rounded-lg focus:outline-none focus:ring-4 focus:ring-lime-green-500 focus:ring-opacity-50 transition-all duration-200 shadow-md">
+                            Analyze voting data
+                        </a>
+                    </div>
+                    <div class="mt-8 pt-6 border-t">
+                        <p class="text-xs text-gray-500">
+                            Your vote has been encrypted and stored securely. Results will be available once the voting period ends.
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-6 text-center">
+                    <div class="inline-flex items-center text-lime-green-600 text-sm font-medium">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        Vote recorded at {{ now|date:"g:i A" }}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <style>
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(-5%);
+                animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+            }
+            50% {
+                transform: translateY(0);
+                animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+            }
+        }
+        .animate-bounce {
+            animation: bounce 1s infinite;
+        }
+    </style>
+{% endblock %}
